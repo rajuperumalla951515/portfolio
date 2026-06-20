@@ -261,6 +261,38 @@ body {
   100% { background-position: 100% 100%; transform: scale(1.1); }
 }
 
+.bg-grid {
+  position: fixed;
+  inset: -10%;
+  z-index: -18;
+  background-size: 35px 35px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+  pointer-events: none;
+  transform: rotate(-5deg);
+}
+
+.spline-wrapper {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -17;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.spline-background {
+  width: 100%;
+  height: calc(100% + 60px); /* Shift the bottom off-screen to hide watermark */
+  border: none;
+  pointer-events: none;
+}
+
+
+
 .animate-marquee {
   display: flex;
   width: max-content;
@@ -311,7 +343,7 @@ body {
 /* Scoped Indian list styles (adapted from user snippet) */
 .indian-list {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .indian-list ul {
@@ -333,6 +365,7 @@ body {
   width: 450px;
   height: 96px;
   padding: 16px;
+  margin-left: 50px;
   background: rgba(255,255,255,0.03);
   border-radius: 10px;
   display: flex;
@@ -771,7 +804,7 @@ body {
   z-index: 0;
   opacity: 0;
   background: radial-gradient(
-    280px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+    var(--spotlight-size, 280px) circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
     var(--spotlight-color, rgba(59, 130, 246, 0.08)),
     transparent 80%
   );
@@ -790,7 +823,7 @@ body {
   border-radius: inherit;
   padding: 1.2px;
   background: radial-gradient(
-    220px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+    var(--spotlight-border-size, 220px) circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
     var(--spotlight-border-glow, rgba(255, 255, 255, 0.15)),
     transparent 75%
   );
@@ -813,6 +846,8 @@ body {
   --spotlight-border-glow: rgba(59, 130, 246, 0.3);
   --spotlight-hover-border: rgba(59, 130, 246, 0.4);
   --spotlight-hover-glow: rgba(59, 130, 246, 0.2);
+  --spotlight-size: 380px;
+  --spotlight-border-size: 300px;
 }
 
 .spotlight-red {

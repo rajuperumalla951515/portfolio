@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
 import * as Lucide from 'lucide-react';
 import Loader from './components/Loader';
-import ParticleBackground from './components/ParticleBackground';
+
 import myLogo from './assets/mylogo.png';
 import htmlLogo from './assets/html.png';
 import cssLogo from './assets/css-3.png';
@@ -62,13 +62,13 @@ const cinematicItem = {
 // Shuffling Floating Logos Component
 const FloatingLogos = ({ logos }) => {
   const [visibleLogos, setVisibleLogos] = useState([]);
-  
+
   useEffect(() => {
     const shuffle = () => {
       const shuffled = [...logos].sort(() => 0.5 - Math.random());
       setVisibleLogos(shuffled.slice(0, 4));
     };
-    
+
     shuffle();
     const interval = setInterval(shuffle, 8000);
     return () => clearInterval(interval);
@@ -86,31 +86,31 @@ const FloatingLogos = ({ logos }) => {
       <div className="absolute inset-0 pointer-events-none">
         {visibleLogos.map((logo, i) => (
           <motion.div
-            key={logo} 
+            key={logo}
             initial={{ opacity: 0, scale: 0.2, rotate: -35, filter: "blur(8px)" }}
             animate={{ opacity: 1, scale: 1, rotate: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, scale: 0.2, rotate: 35, filter: "blur(8px)" }}
-            transition={{ 
-              type: "spring", 
-              stiffness: 60, 
-              damping: 15, 
+            transition={{
+              type: "spring",
+              stiffness: 60,
+              damping: 15,
               mass: 0.8,
               opacity: { duration: 0.8 },
               filter: { duration: 0.6 }
             }}
             className={`absolute ${positions[i].pos} z-10`}
           >
-            <motion.img 
+            <motion.img
               animate={{ y: [0, -15, 0] }}
-              transition={{ 
-                duration: 4, 
-                repeat: Infinity, 
+              transition={{
+                duration: 4,
+                repeat: Infinity,
                 ease: "easeInOut",
-                delay: positions[i].delay 
+                delay: positions[i].delay
               }}
-              src={logo} 
-              alt="tech" 
-              className='w-14 h-14 object-contain filter drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]' 
+              src={logo}
+              alt="tech"
+              className='w-14 h-14 object-contain filter drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]'
             />
           </motion.div>
         ))}
@@ -135,7 +135,7 @@ const Counter = ({ value, duration = 1.8, suffix = "", decimals = 0 }) => {
         const stepTime = 30; // 30ms updates
         const totalSteps = totalMiliseconds / stepTime;
         const increment = (end - start) / totalSteps;
-        
+
         let current = start;
         let timer = setInterval(() => {
           current += increment;
@@ -228,9 +228,8 @@ const TerminalLogs = () => {
       {logs.map((log, index) => (
         <div key={index} className="flex justify-between items-center transition-all duration-500 font-mono">
           <span className="flex items-center gap-1.5 font-mono">
-            <span className={`font-mono font-bold text-[9px] px-1 py-0.5 rounded ${
-              log.method === 'POST' ? 'bg-amber-500/20 text-amber-400' : 'bg-emerald-500/20 text-emerald-400'
-            }`}>
+            <span className={`font-mono font-bold text-[9px] px-1 py-0.5 rounded ${log.method === 'POST' ? 'bg-amber-500/20 text-amber-400' : 'bg-emerald-500/20 text-emerald-400'
+              }`}>
               {log.method}
             </span>
             <span className="text-white/60 font-mono">{log.path}</span>
@@ -319,7 +318,7 @@ const aboutTabs = [
 const App = () => {
   const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [backgroundMode, setBackgroundMode] = useState('dna');
+
   const [activeAboutTab, setActiveAboutTab] = useState('story');
   const [showEmailTag, setShowEmailTag] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
@@ -345,8 +344,12 @@ const App = () => {
   return (
     <div className='relative min-h-screen text-white'>
       <div className='fixed inset-0 bg-[#030303] -z-20' />
+      <div className='bg-grid' />
+      <div className="spline-wrapper">
+        <iframe src="https://my.spline.design/unchained-DhcotgyYPfcf8a7oiKdg2y1I/" className="spline-background" title="Spline Background" />
+      </div>
       <div className='water-caustics' />
-      <ParticleBackground mode={backgroundMode} />
+
       <AnimatePresence>
         {loading && <Loader />}
       </AnimatePresence>
@@ -372,25 +375,25 @@ const App = () => {
             className="fixed inset-0 z-40 bg-[#030303]/95 backdrop-blur-xl flex flex-col items-center justify-center"
           >
             <ul className="flex flex-col gap-8 text-center text-2xl font-outfit tracking-widest font-semibold">
-              <motion.li 
+              <motion.li
                 whileHover={{ scale: 1.1, color: '#ef4444' }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <a href="#about" onClick={() => setMobileMenuOpen(false)}>ABOUT</a>
               </motion.li>
-              <motion.li 
+              <motion.li
                 whileHover={{ scale: 1.1, color: '#ef4444' }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <a href="#skills" onClick={() => setMobileMenuOpen(false)}>SKILLS</a>
               </motion.li>
-              <motion.li 
+              <motion.li
                 whileHover={{ scale: 1.1, color: '#ef4444' }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <a href="#projects" onClick={() => setMobileMenuOpen(false)}>PROJECTS</a>
               </motion.li>
-              <motion.li 
+              <motion.li
                 whileHover={{ scale: 1.1, color: '#ef4444' }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
@@ -421,7 +424,7 @@ const App = () => {
             <motion.div variants={cinematicItem} className='main-logo-font text-gradient cursor-pointer'>
               Raju Perumalla
             </motion.div>
-            
+
             <div className="flex items-center gap-6">
               <motion.div variants={cinematicItem} className='hidden md:block'>
                 <ul className="navbar-links">
@@ -432,8 +435,8 @@ const App = () => {
                 </ul>
               </motion.div>
 
-              <motion.button 
-                variants={cinematicItem} 
+              <motion.button
+                variants={cinematicItem}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className='md:hidden text-white hover:text-red-500 transition-colors focus:outline-none z-50 relative'
               >
@@ -538,11 +541,10 @@ const App = () => {
                                 onClick={handleCopyEmail}
                                 whileTap={{ scale: 0.92 }}
                                 title={emailCopied ? "Copied!" : "Copy email"}
-                                className={`flex-1 flex items-center justify-center py-1.5 rounded-md border transition-all duration-200 ${
-                                  emailCopied
-                                    ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400'
-                                    : 'border-white/8 bg-white/[0.04] hover:bg-white/[0.09] text-white/50 hover:text-white/90'
-                                }`}
+                                className={`flex-1 flex items-center justify-center py-1.5 rounded-md border transition-all duration-200 ${emailCopied
+                                  ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400'
+                                  : 'border-white/8 bg-white/[0.04] hover:bg-white/[0.09] text-white/50 hover:text-white/90'
+                                  }`}
                               >
                                 <IconWrapper name={emailCopied ? "Check" : "Copy"} size={12} />
                               </motion.button>
@@ -618,11 +620,11 @@ const App = () => {
                 glareBorderRadius="50%"
                 className="w-full h-full rounded-full"
               >
-                <img 
-                  src={myLogo} 
-                  alt="Raju Perumalla" 
+                <img
+                  src={myLogo}
+                  alt="Raju Perumalla"
                   className='relative w-full h-full object-cover rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10'
-                  style={{ 
+                  style={{
                     maskImage: 'radial-gradient(circle, black 65%, transparent 100%)',
                     WebkitMaskImage: 'radial-gradient(circle, black 65%, transparent 100%)'
                   }}
@@ -633,7 +635,7 @@ const App = () => {
 
 
 
-         </section>
+        </section>
 
 
         {/* Tech Stack Scrolling Marquee */}
@@ -642,56 +644,63 @@ const App = () => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={cinematicContainer}
-          className='py-12 border-y border-white/5 bg-[#0a0a0a]/50 backdrop-blur-md overflow-hidden relative marquee-container'
+          className='py-12 border-y border-white/5 bg-[#0c0c0d] overflow-hidden relative marquee-container'
         >
           <div className='w-full overflow-hidden flex flex-col gap-4 md:gap-6 -rotate-[10deg] scale-125 py-4'>
             {/* Row 1: Moving Right-to-Left */}
             <div className='flex whitespace-nowrap animate-marquee w-max' style={{ animationDelay: '3s' }}>
-               {[htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo].map((logo, i) => (
-                 <div key={i} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
-                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
-                 </div>
-               ))}
-               {[htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo].map((logo, i) => (
-                 <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
-                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
-                 </div>
-               ))}
+              {[htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo].map((logo, i) => (
+                <div key={i} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                  <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
+                </div>
+              ))}
+              {[htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo].map((logo, i) => (
+                <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                  <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
+                </div>
+              ))}
             </div>
 
             {/* Row 2: Moving Left-to-Right (Reverse) */}
             <div className='flex whitespace-nowrap animate-marquee-reverse w-max'>
-               {[cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo].map((logo, i) => (
-                 <div key={i} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
-                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
-                 </div>
-               ))}
-               {[cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo].map((logo, i) => (
-                 <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
-                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
-                 </div>
-               ))}
+              {[cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo].map((logo, i) => (
+                <div key={i} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                  <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
+                </div>
+              ))}
+              {[cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo].map((logo, i) => (
+                <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                  <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
+                </div>
+              ))}
             </div>
 
             {/* Row 3: Moving Right-to-Left */}
             <div className='flex whitespace-nowrap animate-marquee w-max'>
-               {[reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo].map((logo, i) => (
-                 <div key={i} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
-                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
-                 </div>
-               ))}
-               {[reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo].map((logo, i) => (
-                 <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
-                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
-                 </div>
-               ))}
+              {[reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo].map((logo, i) => (
+                <div key={i} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                  <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
+                </div>
+              ))}
+              {[reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo].map((logo, i) => (
+                <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                  <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
+                </div>
+              ))}
             </div>
           </div>
         </motion.section>
-        <section id='about' className='py-32 grid lg:grid-cols-[1.2fr_1fr] gap-16 lg:gap-24 items-start relative'>
+        <section id='about' className='py-20 md:py-24 px-8 md:px-12 my-12 grid lg:grid-cols-[1.2fr_1fr] gap-16 lg:gap-24 items-start relative overflow-hidden'>
+          {/* Blurred background with left-right feathering, no border */}
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-md -z-10" style={{
+            maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+          }} />
+
           {/* Decorative Glowing Accent Behind Column */}
           <div className="absolute top-[20%] left-[-10%] w-[350px] h-[350px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none -z-10" />
           <div className="absolute bottom-[20%] right-[-10%] w-[350px] h-[350px] bg-purple-500/10 rounded-full blur-[100px] pointer-events-none -z-10" />
+
 
           {/* Left Column: Interactive Narrative System */}
           <motion.div
@@ -724,9 +733,8 @@ const App = () => {
                           <button
                             key={tab.id}
                             onClick={() => setActiveAboutTab(tab.id)}
-                            className={`relative px-4 py-2 rounded-full text-xs md:text-sm font-semibold tracking-wider transition-colors duration-300 flex items-center gap-2 ${
-                              isActive ? 'text-white' : 'text-white/40 hover:text-white/70'
-                            }`}
+                            className={`relative px-4 py-2 rounded-full text-xs md:text-sm font-semibold tracking-wider transition-colors duration-300 flex items-center gap-2 ${isActive ? 'text-white' : 'text-white/40 hover:text-white/70'
+                              }`}
                           >
                             {isActive && (
                               <motion.div
@@ -880,7 +888,7 @@ const App = () => {
             <h3 className='text-blue-500 font-medium mb-4'>Tech Stack</h3>
             <h2 className='text-4xl font-bold'>Tools I use to create <br /><span className='text-gradient'>Magic</span></h2>
           </div>
-          
+
           <div className='grid grid-cols-2 md:grid-cols-4 gap-6'>
             {[
               { name: 'React', level: '95%', logo: reactLogo },
@@ -1013,7 +1021,7 @@ const App = () => {
               </div>
               <div className='blur_back ave_back'></div>
             </div>
-            
+
             <div className='movie_card div4' id='nova'>
               <div className='info_section'>
                 <div className='movie_header'>
@@ -1057,28 +1065,28 @@ const App = () => {
           {/* Indian Names List */}
           <div className='indian-list mt-12'>
             <ul>
-              <li style={{'--i': 1}}>
+              <li style={{ '--i': 1 }}>
                 <img src='https://i.postimg.cc/ZRCLqjNq/user-img1.jpg' alt='user image' />
                 <div className='content'>
                   <h3>Arjun Rao</h3>
                   <p>Bengaluru, KA</p>
                 </div>
               </li>
-              <li style={{'--i': 2}}>
+              <li style={{ '--i': 2 }}>
                 <img src='https://i.postimg.cc/C1XsnDCs/user-img2.jpg' alt='user image' />
                 <div className='content'>
                   <h3>Priya Sharma</h3>
                   <p>Mumbai, MH</p>
                 </div>
               </li>
-              <li style={{'--i': 3}}>
+              <li style={{ '--i': 3 }}>
                 <img src='https://i.postimg.cc/qqKXsRjV/user-img3.jpg' alt='user image' />
                 <div className='content'>
                   <h3>Rohan Kapoor</h3>
                   <p>New Delhi, DL</p>
                 </div>
               </li>
-              <li style={{'--i': 4}}>
+              <li style={{ '--i': 4 }}>
                 <img src='https://i.postimg.cc/QNKbG4s4/user-img4.jpg' alt='user image' />
                 <div className='content'>
                   <h3>Ananya Patel</h3>
@@ -1091,181 +1099,220 @@ const App = () => {
 
         {/* Contact Section */}
         <section id='contact' className='py-32'>
-          <div className="flex flex-col md:flex-row items-center md:items-end justify-between w-full max-w-[1440px] mx-auto px-4 gap-12">
-            
-            {/* Left Column (Content + Socials) */}
-            <div className="flex flex-col space-y-8 w-full md:w-auto">
-              <div>
-                <h2 className='text-4xl font-bold mb-6'>Let's craft something <br /><span className='text-gradient'>Legendary</span></h2>
+          <div className="flex flex-col items-start justify-center w-full max-w-[1440px] mx-auto px-4 gap-12 text-left">
+
+            {/* Main 2-Column Row for Contact Section */}
+            <div className="flex flex-col lg:flex-row items-start justify-between w-full max-w-[1300px] gap-12 md:gap-8 mx-auto text-left">
+
+              {/* Left Side: Heading, Socials & Profile */}
+              <div className="w-full lg:w-1/2 flex flex-col items-start gap-8">
+                <div className="text-left">
+                  <h2 className='text-4xl font-bold mb-6'>Let's craft something <br /><span className='text-gradient'>Legendary</span></h2>
+                </div>
+
+                <div className="flex flex-col md:flex-row items-start gap-8 w-full">
+                  {/* Social Card Wrapper */}
+                  <div className="relative flex-shrink-0 w-full max-w-[300px]">
+                    <div className="social-card" onMouseEnter={() => setHasHoveredSocial(true)}>
+                      <div className="social-background"></div>
+                      <div className="social-title">Socials</div>
+
+                      <a href="https://www.instagram.com/impressive_dev_34?igsh=eGtsMjNwMWZ2YTh2" target="_blank" rel="noopener noreferrer" onMouseEnter={() => setIsInstaHovered(true)} onMouseLeave={() => setIsInstaHovered(false)}>
+                        <div className="social-link instagram">
+                          <span className="social-icon">
+                            <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" className="social-icon-svg">
+                              <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
+                            </svg>
+                          </span>
+                        </div>
+                      </a>
+
+                      <a href="##" onMouseEnter={() => setIsFacebookHovered(true)} onMouseLeave={() => setIsFacebookHovered(false)}>
+                        <div className="social-link facebook">
+                          <span className="social-icon">
+                            <svg viewBox="0 0 320 512" style={{ width: '25px', height: '25px' }} xmlns="http://www.w3.org/2000/svg" className="social-icon-svg">
+                              <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06H297V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
+                            </svg>
+                          </span>
+                        </div>
+                      </a>
+                      <a href="###" onMouseEnter={() => setIsDiscordHovered(true)} onMouseLeave={() => setIsDiscordHovered(false)}>
+                        <div className="social-link discord">
+                          <span className="social-icon">
+                            <svg viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg" className="social-icon-svg">
+                              <path d="M524.531,69.836a1.5,1.5,0,0,0-.764-.7A485.065,485.065,0,0,0,404.081,32.03a1.816,1.816,0,0,0-1.923.91,337.461,337.461,0,0,0-14.9,30.6,447.848,447.848,0,0,0-134.426,0,309.541,309.541,0,0,0-15.135-30.6,1.89,1.89,0,0,0-1.924-.91A483.689,483.689,0,0,0,116.085,69.137a1.712,1.712,0,0,0-.788.676C39.068,183.651,18.186,294.69,28.43,404.354a2.016,2.016,0,0,0,.765,1.375A487.666,487.666,0,0,0,176.02,479.918a1.9,1.9,0,0,0,2.063-.676A348.2,348.2,0,0,0,208.12,430.4a1.86,1.86,0,0,0-1.019-2.588,321.173,321.173,0,0,1-45.868-21.853,1.885,1.885,0,0,1-.185-3.126c3.082-2.309,6.166-4.711,9.109-7.137a1.819,1.819,0,0,1,1.9-.256c96.229,43.917,200.41,43.917,295.5,0a1.812,1.812,0,0,1,1.924.233c2.944,2.426,6.027,4.851,9.132,7.16a1.884,1.884,0,0,1-.162,3.126,301.407,301.407,0,0,1-45.89,21.83,1.875,1.875,0,0,0-1,2.611,391.055,391.055,0,0,0,30.014,48.815,1.864,1.864,0,0,0,2.063.7A486.048,486.048,0,0,0,610.7,405.729a1.882,1.882,0,0,0,.765-1.352C623.729,277.594,590.933,167.465,524.531,69.836ZM222.491,337.58c-28.972,0-52.844-26.587-52.844-59.239S193.056,219.1,222.491,219.1c29.665,0,53.306,26.82,52.843,59.239C275.334,310.993,251.924,337.58,222.491,337.58Zm195.38,0c-28.971,0-52.843-26.587-52.843-59.239S388.437,219.1,417.871,219.1c29.667,0,53.307,26.82,52.844,59.239C470.715,310.993,447.538,337.58,417.871,337.58Z"></path>
+                            </svg>
+                          </span>
+                        </div>
+                      </a>
+
+                      <div className="social-link empty"></div>
+                    </div>
+
+                    {/* Hover Hint */}
+                    {!hasHoveredSocial && (
+                      <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-xs text-white/40 flex items-center gap-1 whitespace-nowrap">
+                        <span className="animate-pulse">Dive Deep here</span>
+                        <span className="inline-block animate-bounce">↓</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Text and Dynamic Card (Right of Social Card) */}
+                  <div className="flex flex-col justify-start gap-10 max-w-[450px]">
+                    <p className="text-white/60" style={{ marginLeft: '5px' }}>
+                      Available for full-time roles,
+                      <br />internships, and freelance projects.
+                      <br />Let's connect and build something great together.
+                    </p>
+                    {/* Instagram Profile Card */}
+                    <AnimatePresence mode="wait">
+                      {isInstaHovered && (
+                        <motion.div
+                          key="insta-card"
+                          initial={{ opacity: 0, y: -15, scale: 1 }}
+                          animate={{ opacity: 1, y: -20, scale: 1.02 }}
+                          exit={{ opacity: 0, y: -28, scale: 0.96 }}
+                          transition={{ type: 'tween', duration: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+                          style={{ marginLeft: '4px' }}
+                          className="premium-card p-5 bg-gradient-to-br from-[#833ab4]/20 via-[#fd1d1d]/20 to-[#fcb045]/20 border border-pink-500/30 rounded-xl w-[320px]"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] p-[2px] flex-shrink-0">
+                              <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
+                                <img src={instaProfile} alt="Profile" className="w-full h-full object-cover" />
+                              </div>
+                            </div>
+                            <div>
+                              <h3 className="font-bold text-white text-base">@impressive_dev_34</h3>
+                              <p className="text-sm text-white/60">D Σ ∇ Я ∆Ｊ [ راجو ]</p>
+                            </div>
+                          </div>
+                          <div className="mt-4 flex justify-between text-sm text-white/80">
+                            <div><span className="font-bold">590</span> Followers</div>
+                            <div><span className="font-bold">50</span> Following</div>
+                          </div>
+                          <div className="mt-3 text-sm text-white/60 line-clamp-2">
+                            Speaker | Developer | Digital Creator
+                          </div>
+                        </motion.div>
+                      )}
+                      {isFacebookHovered && (
+                        <motion.div
+                          key="fb-card"
+                          initial={{ opacity: 0, y: -15, scale: 1 }}
+                          animate={{ opacity: 1, y: -20, scale: 1.02 }}
+                          exit={{ opacity: 0, y: -28, scale: 0.96 }}
+                          transition={{ type: 'tween', duration: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+                          style={{ marginLeft: '4px' }}
+                          className="premium-card p-5 bg-gradient-to-br from-[#1877F2]/20 to-[#0e5a9c]/20 border border-blue-500/30 rounded-xl w-[320px]"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#1877F2] to-[#0e5a9c] p-[2px] flex-shrink-0">
+                              <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
+                                <img src="https://i.pravatar.cc/100?img=33" alt="Avatar" className="w-full h-full object-cover" />
+                              </div>
+                            </div>
+                            <div>
+                              <h3 className="font-bold text-white text-base">Raju Perumalla</h3>
+                              <p className="text-sm text-white/60">Facebook Profile</p>
+                            </div>
+                          </div>
+                          <div className="mt-4 flex justify-between text-sm text-white/80">
+                            <div><span className="font-bold">1.5k</span> Friends</div>
+                            <div><span className="font-bold">200</span> Following</div>
+                          </div>
+                          <div className="mt-3 text-sm text-white/60 line-clamp-2">
+                            Web Developer | Tech Enthusiast
+                          </div>
+                        </motion.div>
+                      )}
+                      {isDiscordHovered && (
+                        <motion.div
+                          key="discord-card"
+                          initial={{ opacity: 0, y: -15, scale: 1 }}
+                          animate={{ opacity: 1, y: -20, scale: 1.02 }}
+                          exit={{ opacity: 0, y: -28, scale: 0.96 }}
+                          transition={{ type: 'tween', duration: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+                          style={{ marginLeft: '4px' }}
+                          className="premium-card p-5 bg-gradient-to-br from-[#5865F2]/20 to-[#7289DA]/20 border border-indigo-500/30 rounded-xl w-[320px]"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#5865F2] to-[#7289DA] p-[2px] flex-shrink-0">
+                              <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
+                                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=gaming" alt="Avatar" className="w-full h-full object-cover" />
+                              </div>
+                            </div>
+                            <div>
+                              <h3 className="font-bold text-white text-base">rajuperumalla</h3>
+                              <p className="text-sm text-white/60">Discord Profile</p>
+                            </div>
+                          </div>
+                          <div className="mt-4 flex justify-between text-sm text-white/80">
+                            <div><span className="font-bold">Online</span></div>
+                            <div><span className="font-bold">Gaming | Coding</span></div>
+                          </div>
+                          <div className="mt-3 text-sm text-white/60 line-clamp-2">
+                            Join my server or DM me!
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </div>
               </div>
 
-              {/* Row for Social Card and Content */}
-              <div className="flex flex-col md:flex-row items-center md:items-stretch gap-8 md:mb-6">
-                {/* Social Card Wrapper */}
-                <div className="relative flex-shrink-0 w-full max-w-[300px]">
-                  <div className="social-card" onMouseEnter={() => setHasHoveredSocial(true)}>
-                    <div className="social-background"></div>
-                    <div className="social-title">Socials</div>
+              {/* Divider Line */}
+              <div className="hidden lg:block w-[1px] h-[450px] bg-gradient-to-b from-transparent via-white/10 to-transparent self-center translate-x-[100px]"></div>
 
-                  <a href="https://www.instagram.com/impressive_dev_34?igsh=eGtsMjNwMWZ2YTh2" target="_blank" rel="noopener noreferrer" onMouseEnter={() => setIsInstaHovered(true)} onMouseLeave={() => setIsInstaHovered(false)}>
-                    <div className="social-link instagram">
-                      <span className="social-icon">
-                        <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" className="social-icon-svg">
-                          <path d="M 9.9980469 3 C 6.1390469 3 3 6.1419531 3 10.001953 L 3 20.001953 C 3 23.860953 6.1419531 27 10.001953 27 L 20.001953 27 C 23.860953 27 27 23.858047 27 19.998047 L 27 9.9980469 C 27 6.1390469 23.858047 3 19.998047 3 L 9.9980469 3 z M 22 7 C 22.552 7 23 7.448 23 8 C 23 8.552 22.552 9 22 9 C 21.448 9 21 8.552 21 8 C 21 7.448 21.448 7 22 7 z M 15 9 C 18.309 9 21 11.691 21 15 C 21 18.309 18.309 21 15 21 C 11.691 21 9 18.309 9 15 C 9 11.691 11.691 9 15 9 z M 15 11 A 4 4 0 0 0 11 15 A 4 4 0 0 0 15 19 A 4 4 0 0 0 19 15 A 4 4 0 0 0 15 11 z"></path>
-                        </svg>
-                      </span>
+              {/* Right Side: Let's Connect Form */}
+              <div className="w-full lg:w-1/2 flex justify-end translate-x-[60px]">
+                {/* Let's Connect Bento Card */}
+                <BentoCard spotlightClass="spotlight-blue" className="w-full max-w-[500px] h-[450px] !p-8 flex flex-col justify-between ml-auto">
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <IconWrapper name="Send" size={24} className="text-blue-400" />
+                      <h3 className="font-bold text-white text-2xl tracking-tight">Let's Connect</h3>
                     </div>
-                  </a>
-
-                  <a href="##" onMouseEnter={() => setIsFacebookHovered(true)} onMouseLeave={() => setIsFacebookHovered(false)}>
-                    <div className="social-link facebook">
-                      <span className="social-icon">
-                        <svg viewBox="0 0 320 512" style={{width: '25px', height: '25px'}} xmlns="http://www.w3.org/2000/svg" className="social-icon-svg">
-                          <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06H297V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
-                        </svg>
-                      </span>
-                    </div>
-                  </a>
-                  <a href="###" onMouseEnter={() => setIsDiscordHovered(true)} onMouseLeave={() => setIsDiscordHovered(false)}>
-                    <div className="social-link discord">
-                      <span className="social-icon">
-                        <svg viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg" className="social-icon-svg">
-                          <path d="M524.531,69.836a1.5,1.5,0,0,0-.764-.7A485.065,485.065,0,0,0,404.081,32.03a1.816,1.816,0,0,0-1.923.91,337.461,337.461,0,0,0-14.9,30.6,447.848,447.848,0,0,0-134.426,0,309.541,309.541,0,0,0-15.135-30.6,1.89,1.89,0,0,0-1.924-.91A483.689,483.689,0,0,0,116.085,69.137a1.712,1.712,0,0,0-.788.676C39.068,183.651,18.186,294.69,28.43,404.354a2.016,2.016,0,0,0,.765,1.375A487.666,487.666,0,0,0,176.02,479.918a1.9,1.9,0,0,0,2.063-.676A348.2,348.2,0,0,0,208.12,430.4a1.86,1.86,0,0,0-1.019-2.588,321.173,321.173,0,0,1-45.868-21.853,1.885,1.885,0,0,1-.185-3.126c3.082-2.309,6.166-4.711,9.109-7.137a1.819,1.819,0,0,1,1.9-.256c96.229,43.917,200.41,43.917,295.5,0a1.812,1.812,0,0,1,1.924.233c2.944,2.426,6.027,4.851,9.132,7.16a1.884,1.884,0,0,1-.162,3.126,301.407,301.407,0,0,1-45.89,21.83,1.875,1.875,0,0,0-1,2.611,391.055,391.055,0,0,0,30.014,48.815,1.864,1.864,0,0,0,2.063.7A486.048,486.048,0,0,0,610.7,405.729a1.882,1.882,0,0,0,.765-1.352C623.729,277.594,590.933,167.465,524.531,69.836ZM222.491,337.58c-28.972,0-52.844-26.587-52.844-59.239S193.056,219.1,222.491,219.1c29.665,0,53.306,26.82,52.843,59.239C275.334,310.993,251.924,337.58,222.491,337.58Zm195.38,0c-28.971,0-52.843-26.587-52.843-59.239S388.437,219.1,417.871,219.1c29.667,0,53.307,26.82,52.844,59.239C470.715,310.993,447.538,337.58,417.871,337.58Z"></path>
-                        </svg>
-                      </span>
-                    </div>
-                  </a>
-
-                  <div className="social-link empty"></div>
+                    <p className="text-sm text-white/40 leading-relaxed">
+                      Send me a message and I'll get back to you soon.
+                    </p>
                   </div>
-                  
-                  {/* Hover Hint */}
-                  {!hasHoveredSocial && (
-                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-xs text-white/40 flex items-center gap-1 whitespace-nowrap">
-                      <span className="animate-pulse">Dive Deep here</span>
-                      <span className="inline-block animate-bounce">↓</span>
+
+                  <div className="space-y-5">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-widest text-white/40">Name</label>
+                        <input
+                          className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.07] transition-all duration-200"
+                          placeholder="Your name"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-widest text-white/40">Email</label>
+                        <input
+                          type="email"
+                          className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.07] transition-all duration-200"
+                          placeholder="you@email.com"
+                        />
+                      </div>
                     </div>
-                  )}
-                </div>
 
-                {/* Text and Dynamic Card (Right of Social Card) */}
-                <div className="flex flex-col justify-between max-w-[300px]">
-                  <p className='text-white/60'>
-                    Available for full-time roles and freelance projects. 
-                    Reach out and let's start a conversation.
-                  </p>
-                  
-                  {/* Instagram Profile Card */}
-                  <AnimatePresence>
-                    {isInstaHovered && (
-                      <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="premium-card p-4 bg-gradient-to-br from-[#833ab4]/20 via-[#fd1d1d]/20 to-[#fcb045]/20 border border-pink-500/30 rounded-xl"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] p-[2px]">
-                            <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
-                              <img src={instaProfile} alt="Profile" className="w-full h-full object-cover" />
-                            </div>
-                          </div>
-                          <div>
-                            <h3 className="font-bold text-white text-sm">@impressive_dev_34</h3>
-                            <p className="text-xs text-white/60">D Σ ∇ Я ∆Ｊ [ راجو ]</p>
-                          </div>
-                        </div>
-                        <div className="mt-3 flex justify-between text-xs text-white/80">
-                          <div><span className="font-bold">590</span> Followers</div>
-                          <div><span className="font-bold">50</span> Following</div>
-                        </div>
-                        <div className="mt-3 text-xs text-white/60 line-clamp-2">
-                           Speaker | Developer | Digital Creator 
-                        </div>
-                      </motion.div>
-                    )}
-                    {isFacebookHovered && (
-                      <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="premium-card p-4 bg-gradient-to-br from-[#1877F2]/20 to-[#0e5a9c]/20 border border-blue-500/30 rounded-xl"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#1877F2] to-[#0e5a9c] p-[2px]">
-                            <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
-                              <img src="https://i.pravatar.cc/100?img=33" alt="Avatar" className="w-full h-full object-cover" />
-                            </div>
-                          </div>
-                          <div>
-                            <h3 className="font-bold text-white text-sm">Raju Perumalla</h3>
-                            <p className="text-xs text-white/60">Facebook Profile</p>
-                          </div>
-                        </div>
-                        <div className="mt-3 flex justify-between text-xs text-white/80">
-                          <div><span className="font-bold">1.5k</span> Friends</div>
-                          <div><span className="font-bold">200</span> Following</div>
-                        </div>
-                        <div className="mt-3 text-xs text-white/60 line-clamp-2">
-                           Web Developer | Tech Enthusiast
-                        </div>
-                      </motion.div>
-                    )}
-                    {isDiscordHovered && (
-                      <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="premium-card p-4 bg-gradient-to-br from-[#5865F2]/20 to-[#7289DA]/20 border border-indigo-500/30 rounded-xl"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#5865F2] to-[#7289DA] p-[2px]">
-                            <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
-                              <img src="https://api.dicebear.com/7.x/bottts/svg?seed=gaming" alt="Avatar" className="w-full h-full object-cover" />
-                            </div>
-                          </div>
-                          <div>
-                            <h3 className="font-bold text-white text-sm">rajuperumalla</h3>
-                            <p className="text-xs text-white/60">Discord Profile</p>
-                          </div>
-                        </div>
-                        <div className="mt-3 flex justify-between text-xs text-white/80">
-                          <div><span className="font-bold">Online</span></div>
-                          <div><span className="font-bold">Gaming | Coding</span></div>
-                        </div>
-                        <div className="mt-3 text-xs text-white/60 line-clamp-2">
-                          Join my server or DM me!
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
-            </div>
+                    <div className="space-y-2">
+                      <label className="text-xs uppercase tracking-widest text-white/40">Message</label>
+                      <textarea
+                        rows={5}
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.07] transition-all duration-200 resize-none"
+                        placeholder="Tell me about your project..."
+                      />
+                    </div>
 
-            {/* Right Column (Form Card) */}
-            <div className='premium-card p-6 md:p-12 bg-gradient-to-br from-white/5 to-blue-500/5 max-w-[600px] w-full'>
-              <div className='space-y-4'>
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                  <div className='space-y-2'>
-                    <label className='text-xs uppercase tracking-widest text-white/40'>Name</label>
-                    <input className='w-full bg-white/5 border border-white/10 rounded-lg p-3 focus:outline-none focus:border-red-500/50 transition-colors' placeholder='John Doe' />
+                    <button className="w-full py-4 bg-blue-500 hover:bg-blue-600 active:scale-[0.98] rounded-lg text-sm font-bold text-white flex items-center justify-center gap-2 transition-all duration-200 group mt-2">
+                      Send Message
+                      <IconWrapper name="Send" size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+                    </button>
                   </div>
-                  <div className='space-y-2'>
-                    <label className='text-xs uppercase tracking-widest text-white/40'>Email</label>
-                    <input className='w-full bg-white/5 border border-white/10 rounded-lg p-3 focus:outline-none focus:border-red-500/50 transition-colors' placeholder='john@example.com' />
-                  </div>
-                </div>
-                <div className='space-y-2'>
-                  <label className='text-xs uppercase tracking-widest text-white/40'>Message</label>
-                  <textarea rows={4} className='w-full bg-white/5 border border-white/10 rounded-lg p-3 focus:outline-none focus:border-red-500/50 transition-colors' placeholder='Tell me about your project...' />
-                </div>
-                <button className='w-full py-4 bg-blue-500 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-red-600 transition-colors group'>
-                  Send Message <IconWrapper name='Send' size={18} className='group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform'/>
-                </button>
+                </BentoCard>
               </div>
             </div>
 
