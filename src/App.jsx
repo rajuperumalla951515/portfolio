@@ -345,9 +345,6 @@ const App = () => {
     <div className='relative min-h-screen text-white'>
       <div className='fixed inset-0 bg-[#030303] -z-20' />
       <div className='bg-grid' />
-      <div className="spline-wrapper">
-        <iframe src="https://my.spline.design/unchained-DhcotgyYPfcf8a7oiKdg2y1I/" className="spline-background" title="Spline Background" />
-      </div>
       <div className='water-caustics' />
 
       <AnimatePresence>
