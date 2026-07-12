@@ -5,6 +5,7 @@ import * as Lucide from 'lucide-react';
 import Loader from './components/Loader';
 
 import myLogo from './assets/mylogo.png';
+import profilePhoto from './assets/profile.png';
 import htmlLogo from './assets/html.png';
 import cssLogo from './assets/css-3.png';
 import jsLogo from './assets/javascript.png';
@@ -248,28 +249,36 @@ const TerminalLogs = () => {
 
 const aboutTabs = [
   {
-    id: 'story',
-    label: 'My Story',
-    title: 'Expertise in both',
-    titleHighlight: 'Pixels & Performance',
-    icon: 'Globe',
-    content: 'I am a dedicated Full Stack Developer & Android Engineer with a passion for building high-performance, robust applications. My journey started with a curiosity for how apps work, which led me into the deep ends of Android development and web technologies. I craft experiences that combine design integrity with bulletproof engineering.'
+    id: 'about',
+    label: 'About Me',
+    title: 'Full-Stack Developer &',
+    titleHighlight: 'Android Engineer',
+    icon: 'User',
+    content: 'I am a dedicated Full Stack Developer & Android Engineer with a passion for building high-performance, robust applications. My journey started with a curiosity for how apps work, leading me into Android development and web technologies. I craft experiences that combine design integrity with bulletproof engineering.'
   },
   {
-    id: 'pixels',
-    label: 'Architecture',
-    title: 'Zero-Lag Systems &',
-    titleHighlight: 'Clean Core Design',
-    icon: 'Terminal',
-    content: 'I believe code should not just work—it should feel alive and scale seamlessly. My systems engineering focus ranges from building super-fast API gateways in FastAPI (targeting <20ms latency) to orchestrating microservices, optimizing database transactions, and managing containerized applications using Docker.'
+    id: 'projects',
+    label: 'Projects',
+    title: 'Shipped Products &',
+    titleHighlight: 'Real-World Impact',
+    icon: 'Layers',
+    content: 'From production-ready REST APIs to full-stack web apps and Android applications, every project I build is engineered for scale, speed, and reliability. I focus on shipping clean, maintainable code that solves real problems — not just prototypes.'
   },
   {
-    id: 'creator',
-    label: 'Creator Hub',
-    title: 'Sharing Knowledge &',
-    titleHighlight: 'Empowering Developers',
-    icon: 'Youtube',
-    content: 'As a passionate technology creator under DevRaj, I believe in open education. I share deep-dives into modern web development, Android architecture, and systems engineering, growing a vibrant community of over 2.5K+ subscribers and pushing the boundaries of what open-source developers can achieve together.'
+    id: 'experience',
+    label: 'Experience',
+    title: '3+ Years of',
+    titleHighlight: 'Professional Craft',
+    icon: 'Briefcase',
+    content: 'Over 3 years of hands-on engineering across full-stack web development, backend systems, and Android. I have built and deployed end-to-end systems, led API architecture decisions, optimized query performance, and delivered containerized microservices that scale under real-world load.'
+  },
+  {
+    id: 'achievements',
+    label: 'Achievements',
+    title: 'Milestones &',
+    titleHighlight: 'Recognition',
+    icon: 'Trophy',
+    content: 'Grew a YouTube channel to 2.5K+ subscribers sharing deep engineering content. Published open-source projects with active community usage. Recognized for building high-throughput APIs achieving sub-20ms response times, and for designing Android apps with consistent 4.8+ star ratings.'
   }
 ];
 
@@ -388,25 +397,6 @@ const App = () => {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (isAboutCardsHovered) return;
-    const interval = setInterval(() => {
-      setAnimDirection(1);
-      setActiveCardIndex((prev) => (prev + 1) % 3);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [isAboutCardsHovered]);
-
-  const scrollAboutCards = (direction) => {
-    setAnimDirection(direction === 'left' ? -1 : 1);
-    setActiveCardIndex((prev) => {
-      if (direction === 'left') {
-        return (prev - 1 + 3) % 3;
-      } else {
-        return (prev + 1) % 3;
-      }
-    });
-  };
 
   return (
     <div
@@ -878,9 +868,7 @@ const App = () => {
                 Get in Touch <IconWrapper name='Send' size={15} />
               </button>
             </div>
-          </motion.div>
-
-          {/* Right Column: Carousel with slide animation */}
+          </motion.div>          {/* Right Column: Carousel with slide animation */}
           <div
             className="relative w-full overflow-hidden"
             style={{
@@ -904,105 +892,152 @@ const App = () => {
                 exit="exit"
                 transition={{ duration: 0.38, ease: [0.25, 1, 0.5, 1] }}
               >
-                {/* Card 1: Experience Counter */}
+                {/* Card 0: About Me */}
                 {activeCardIndex === 0 && (
                   <BentoCard
                     disableAnimation={true}
                     spotlightClass="spotlight-blue"
-                    className="w-full h-[400px] md:h-[440px] relative overflow-hidden"
+                    className="w-full h-[400px] md:h-[440px] relative overflow-hidden !rounded-none"
                   >
                     <div className="absolute inset-0 bg-grid-card opacity-[0.03] pointer-events-none" />
-                    <div className="flex justify-between items-start w-full">
-                      <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
-                        <IconWrapper name="Zap" size={24} className="animate-pulse" />
+                    {/* Profile layout: photo right full-height, info left */}
+                    <div className="flex h-full gap-5">
+                      {/* Left: info */}
+                      <div className="flex flex-col justify-between flex-1 min-w-0">
+                        <div>
+                          <span className="text-[9px] font-bold text-blue-400 tracking-widest uppercase bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">Full-Stack • Android • Backend</span>
+                          <h4 className="font-bold text-white text-base md:text-lg mt-3 leading-tight">Raju Perumalla</h4>
+                          <p className="text-[11px] text-white/50 mt-2 leading-relaxed">
+                            A dedicated engineer blending design integrity with bulletproof engineering — scalable web apps, high-performance APIs, and polished Android experiences.
+                          </p>
+                        </div>
+                        <div className="flex gap-2 mt-3">
+                          <div className="flex-1 p-2 rounded-lg bg-black/40 border border-white/5 text-center">
+                            <span className="text-xs font-black text-white">3+</span>
+                            <p className="text-[9px] text-white/40 uppercase tracking-wider">Years</p>
+                          </div>
+                          <div className="flex-1 p-2 rounded-lg bg-black/40 border border-white/5 text-center">
+                            <span className="text-xs font-black text-white">15+</span>
+                            <p className="text-[9px] text-white/40 uppercase tracking-wider">Projects</p>
+                          </div>
+                          <div className="flex-1 p-2 rounded-lg bg-black/40 border border-white/5 text-center">
+                            <span className="text-xs font-black text-white">2.5K+</span>
+                            <p className="text-[9px] text-white/40 uppercase tracking-wider">Subs</p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="relative w-12 h-12 flex items-center justify-center">
-                        <div className="absolute w-12 h-12 border-2 border-dashed border-blue-500/20 rounded-full animate-gear" />
-                        <div className="absolute w-8 h-8 border border-blue-500/40 rounded-full animate-radar" />
-                        <div className="w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_10px_#3b82f6]" />
+                      {/* Right: full-height image, no box/border, feathered bottom mask */}
+                      <div className="flex-shrink-0 self-stretch flex items-end">
+                        <img
+                          src={profilePhoto}
+                          alt="Raju Perumalla"
+                          className="h-full w-auto object-contain object-bottom"
+                          style={{
+                            maskImage: 'linear-gradient(to bottom, black 30%, transparent 95%)',
+                            WebkitMaskImage: 'linear-gradient(to bottom, black 30%, transparent 95%)'
+                          }}
+                        />
                       </div>
-                    </div>
-                    <div className="mt-auto">
-                      <div className="text-4xl md:text-5xl font-black text-white tracking-tight flex items-baseline leading-none">
-                        <Counter value={3} decimals={0} suffix="+" />
-                        <span className="text-xs font-bold text-blue-400 ml-2 tracking-widest uppercase bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">Years</span>
-                      </div>
-                      <h4 className="font-bold text-white text-sm md:text-base mt-4">Full-Stack Engineering</h4>
-                      <p className="text-[12px] text-white/50 mt-1 leading-relaxed">
-                        Building robust, scalable interfaces &amp; high-performance applications with cutting-edge architectures.
-                      </p>
                     </div>
                   </BentoCard>
                 )}
 
-                {/* Card 2: Terminal FastAPI */}
+                {/* Card 1: Featured Projects */}
                 {activeCardIndex === 1 && (
                   <BentoCard
                     disableAnimation={true}
                     spotlightClass="spotlight-emerald"
-                    className="w-full h-[400px] md:h-[440px] relative overflow-hidden"
+                    className="w-full h-[400px] md:h-[440px] relative overflow-hidden !rounded-none"
                   >
-                    <div className="flex flex-col h-full justify-between">
-                      <div>
-                        <div className="flex justify-between items-center w-full mb-3">
-                          <div className="flex gap-1.5">
-                            <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
-                            <div className="w-2.5 h-2.5 rounded-full bg-amber-500/50" />
-                            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/50" />
+                    <div className="absolute inset-0 bg-grid-card opacity-[0.03] pointer-events-none" />
+                    <div className="flex justify-between items-start w-full">
+                      <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                        <IconWrapper name="Layers" size={24} />
+                      </div>
+                      <span className="text-[9px] font-bold tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full uppercase">Production Ready</span>
+                    </div>
+                    <div className="mt-auto space-y-2.5">
+                      {[
+                        { name: 'DevRaj API Gateway', tech: 'FastAPI · Docker · PostgreSQL', badge: 'Live' },
+                        { name: 'Portfolio Platform', tech: 'React · Vite · Tailwind', badge: 'Shipped' },
+                        { name: 'Android Task Manager', tech: 'Kotlin · Room · MVVM', badge: '4.8★' },
+                      ].map((p) => (
+                        <div key={p.name} className="flex items-center justify-between p-2.5 rounded-lg bg-black/40 border border-white/5">
+                          <div>
+                            <p className="text-[11px] font-bold text-white">{p.name}</p>
+                            <p className="text-[9px] text-white/40 font-mono">{p.tech}</p>
                           </div>
-                          <span className="text-[9px] font-bold font-mono tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
-                            api.fastapi.py
-                          </span>
+                          <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">{p.badge}</span>
                         </div>
-                        <TerminalLogs />
-                      </div>
-                      <div className="mt-3">
-                        <h4 className="font-bold text-white text-sm md:text-base flex items-center gap-1.5">
-                          <IconWrapper name="Terminal" size={16} className="text-emerald-400" />
-                          High-Performance APIs
-                        </h4>
-                        <p className="text-[12px] text-white/50 mt-1 leading-relaxed">
-                          Optimized, zero-lag backend endpoints leveraging Python, FastAPI, asynchronous event loops, and relational SQL queries.
-                        </p>
-                      </div>
+                      ))}
                     </div>
                   </BentoCard>
                 )}
 
-                {/* Card 3: YouTube Creator */}
+                {/* Card 2: Experience */}
                 {activeCardIndex === 2 && (
                   <BentoCard
                     disableAnimation={true}
-                    spotlightClass="spotlight-red"
-                    className="w-full h-[400px] md:h-[440px] relative overflow-hidden"
+                    spotlightClass="spotlight-blue"
+                    className="w-full h-[400px] md:h-[440px] relative overflow-hidden !rounded-none"
                   >
                     <div className="absolute inset-0 bg-grid-card opacity-[0.03] pointer-events-none" />
                     <div className="flex justify-between items-start w-full">
-                      <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 shadow-[0_0_15px_rgba(239,68,68,0.15)]">
-                        <IconWrapper name="Youtube" size={24} />
+                      <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
+                        <IconWrapper name="Briefcase" size={24} />
                       </div>
-                      <span className="text-[9px] font-bold tracking-widest text-red-400 bg-red-500/10 border border-red-500/20 px-2.5 py-1 rounded-full uppercase">
-                        Creator
-                      </span>
-                    </div>
-                    <div className="mt-auto">
                       <div className="text-4xl md:text-5xl font-black text-white tracking-tight flex items-baseline leading-none">
-                        <Counter value={2.5} decimals={1} suffix="K+" />
-                        <span className="text-xs font-bold text-red-500 ml-2 tracking-widest uppercase bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded-full font-mono">Subs</span>
+                        <Counter value={3} decimals={0} suffix="+" />
+                        <span className="text-xs font-bold text-blue-400 ml-1 tracking-widest uppercase bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">Yrs</span>
                       </div>
-                      <div className="mt-3 flex gap-2">
-                        <div className="flex-1 p-2 rounded-lg bg-black/40 border border-white/5 flex flex-col justify-center">
-                          <span className="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Watch time</span>
-                          <span className="text-xs font-bold text-white/90">450K+ mins</span>
+                    </div>
+                    <div className="mt-auto space-y-2.5">
+                      {[
+                        { role: 'Full-Stack Developer', org: 'Freelance & Personal Projects', period: '2022 – Present' },
+                        { role: 'Android Engineer', org: 'Kotlin & Java Ecosystem', period: '2021 – Present' },
+                        { role: 'Backend Engineer', org: 'FastAPI · Node.js · PostgreSQL', period: '2023 – Present' },
+                      ].map((e) => (
+                        <div key={e.role} className="p-2.5 rounded-lg bg-black/40 border border-white/5">
+                          <div className="flex justify-between items-center">
+                            <p className="text-[11px] font-bold text-white">{e.role}</p>
+                            <span className="text-[9px] text-blue-400 font-mono">{e.period}</span>
+                          </div>
+                          <p className="text-[9px] text-white/40 mt-0.5">{e.org}</p>
                         </div>
-                        <div className="flex-1 p-2 rounded-lg bg-black/40 border border-white/5 flex flex-col justify-center">
-                          <span className="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Growth</span>
-                          <span className="text-xs font-bold text-emerald-400">+18.4%</span>
-                        </div>
+                      ))}
+                    </div>
+                  </BentoCard>
+                )}
+
+                {/* Card 3: Achievements */}
+                {activeCardIndex === 3 && (
+                  <BentoCard
+                    disableAnimation={true}
+                    spotlightClass="spotlight-red"
+                    className="w-full h-[400px] md:h-[440px] relative overflow-hidden !rounded-none"
+                  >
+                    <div className="absolute inset-0 bg-grid-card opacity-[0.03] pointer-events-none" />
+                    <div className="flex justify-between items-start w-full">
+                      <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+                        <IconWrapper name="Trophy" size={24} />
                       </div>
-                      <p className="text-[12px] text-white/50 mt-3 leading-relaxed">
-                        Educating global developers on advanced systems engineering, RESTful API design, and backend development.
-                      </p>
+                      <span className="text-[9px] font-bold tracking-widest text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full uppercase">Milestones</span>
+                    </div>
+                    <div className="mt-auto space-y-2.5">
+                      {[
+                        { icon: 'Youtube', label: '2.5K+ YouTube Subscribers', sub: 'DevRaj Engineering Channel', color: 'text-red-400' },
+                        { icon: 'Zap', label: 'Sub-20ms API Response Time', sub: 'FastAPI High-Throughput Systems', color: 'text-blue-400' },
+                        { icon: 'Star', label: '4.8★ Android App Rating', sub: 'Consistent User-Rated Quality', color: 'text-amber-400' },
+                        { icon: 'Globe', label: '450K+ Watch Minutes', sub: 'Global Developer Community', color: 'text-emerald-400' },
+                      ].map((a) => (
+                        <div key={a.label} className="flex items-center gap-3 p-2 rounded-lg bg-black/40 border border-white/5">
+                          <IconWrapper name={a.icon} size={14} className={a.color} />
+                          <div>
+                            <p className="text-[11px] font-bold text-white">{a.label}</p>
+                            <p className="text-[9px] text-white/40">{a.sub}</p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </BentoCard>
                 )}
@@ -1015,7 +1050,7 @@ const App = () => {
                 type="button"
                 onClick={() => {
                   setAnimDirection(-1);
-                  setActiveCardIndex(i => (i - 1 + 3) % 3);
+                  setActiveCardIndex(i => (i - 1 + 4) % 4);
                 }}
                 aria-label="Previous card"
                 className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 hover:text-white text-white/60 transition-all duration-300 shadow-md backdrop-blur-sm"
@@ -1024,7 +1059,7 @@ const App = () => {
               </button>
 
               <div className="flex gap-2">
-                {[0, 1, 2].map((idx) => (
+                {[0, 1, 2, 3].map((idx) => (
                   <button
                     key={idx}
                     type="button"
@@ -1046,7 +1081,7 @@ const App = () => {
                 type="button"
                 onClick={() => {
                   setAnimDirection(1);
-                  setActiveCardIndex(i => (i + 1) % 3);
+                  setActiveCardIndex(i => (i + 1) % 4);
                 }}
                 aria-label="Next card"
                 className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 hover:text-white text-white/60 transition-all duration-300 shadow-md backdrop-blur-sm"
@@ -1060,9 +1095,13 @@ const App = () => {
 
         {/* Skills Section */}
         <section id='skills' ref={skillsSectionRef} className='py-32'>
-          <div className='text-center mb-20'>
-            <h3 className='text-blue-500 font-medium mb-4'>Tech Stack</h3>
-            <h2 className='text-4xl font-bold'>Tools I use to create <br /><span className='text-gradient'>Magic</span></h2>
+          <div className='text-center mb-20 flex flex-col items-center'>
+            <h3 className='text-blue-500 font-semibold mb-4 flex items-center justify-center gap-2 text-sm tracking-widest uppercase'>
+              <span className='h-px w-8 bg-blue-500 block' /> Technical Expertise <span className='h-px w-8 bg-blue-500 block' />
+            </h3>
+            <h2 className='text-4xl md:text-5xl font-black tracking-tight leading-[1.15] text-white'>
+              Core Technologies &amp; <br /><span className='text-gradient'>Engineering Stack</span>
+            </h2>
           </div>
 
           <div className='grid grid-cols-2 md:grid-cols-4 gap-6'>
