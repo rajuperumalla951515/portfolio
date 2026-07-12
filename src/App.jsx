@@ -820,8 +820,8 @@ const App = () => {
                       </p>
                     )}
 
-                    {/* Sleek Horizontal Tab Selector with animated underline */}
-                    <div className="flex border-b border-white/10 mb-8 w-full max-w-xl">
+                    {/* Modern Liquid Sliding Tabs Selector */}
+                    <div className="flex flex-wrap gap-2 p-1.5 bg-white/[0.02] border border-white/5 rounded-full mb-8 w-fit backdrop-blur-md">
                       {aboutTabs.map((tab, idx) => {
                         const isActive = activeCardIndex === idx;
                         return (
@@ -831,19 +831,18 @@ const App = () => {
                               setAnimDirection(idx > activeCardIndex ? 1 : -1);
                               setActiveCardIndex(idx);
                             }}
-                            className={`relative pb-3 flex-1 text-center text-xs md:text-sm font-bold tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
-                              isActive ? 'text-blue-400' : 'text-white/40 hover:text-white/85'
-                            }`}
+                            className={`relative px-4 py-2 rounded-full text-xs md:text-sm font-semibold tracking-wider transition-colors duration-300 flex items-center gap-2 ${isActive ? 'text-white' : 'text-white/40 hover:text-white/70'
+                              }`}
                           >
-                            <IconWrapper name={tab.icon} size={15} className={isActive ? 'text-blue-400' : 'text-white/40'} />
-                            <span>{tab.label}</span>
                             {isActive && (
                               <motion.div
-                                layoutId="aboutActiveTabUnderline"
-                                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 shadow-[0_2px_10px_rgba(59,130,246,0.3)]"
-                                transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                                layoutId="aboutActiveTab"
+                                className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full -z-10 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+                                transition={{ type: "spring", stiffness: 380, damping: 30 }}
                               />
                             )}
+                            <IconWrapper name={tab.icon} size={15} />
+                            {tab.label}
                           </button>
                         );
                       })}
