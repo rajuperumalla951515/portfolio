@@ -22,6 +22,8 @@ import pythonLogo from './assets/python.png';
 import sqlLogo from './assets/sql.png';
 import linkedinLogo from './assets/linkedin.png';
 import youtubeLogo from './assets/youtube (1).png';
+import googleLogo from './assets/google-logo.png';
+import sapLogo from './assets/sap-logo.png';
 import gmailLogo from './assets/gmail.png';
 import instaProfile from './assets/insta profile.png';
 
@@ -251,10 +253,11 @@ const aboutTabs = [
   {
     id: 'about',
     label: 'About Me',
-    title: 'Full-Stack Developer &',
-    titleHighlight: 'Android Engineer',
+    title: 'Full-Stack Web &',
+    titleHighlight: 'Android Developer',
     icon: 'User',
-    content: 'I am a dedicated Full Stack Developer & Android Engineer with a passion for building high-performance, robust applications. My journey started with a curiosity for how apps work, leading me into Android development and web technologies. I craft experiences that combine design integrity with bulletproof engineering.'
+    tagline: 'Full Stack Developer • Android Developer • AI & ML Engineer • Content Creator (2.5K+ YouTube)',
+    content: 'I build scalable web and Android applications powered by AI, machine learning, and modern backend technologies. From intelligent automation to real-time data-driven systems, I enjoy transforming ideas into products that solve real-world problems and create meaningful user experiences.'
   },
   {
     id: 'projects',
@@ -262,7 +265,7 @@ const aboutTabs = [
     title: 'Shipped Products &',
     titleHighlight: 'Real-World Impact',
     icon: 'Layers',
-    content: 'From production-ready REST APIs to full-stack web apps and Android applications, every project I build is engineered for scale, speed, and reliability. I focus on shipping clean, maintainable code that solves real problems — not just prototypes.'
+    content: 'I designed, developed, and deployed multiple real-world software solutions that are actively solving practical problems. My work includes full-stack web development, Android apps, AI, machine learning, and scalable backend systems. Projects such as Smart Guardian, the AI Student Travel Planner, and the Helmet Detection System demonstrate my ability to build production-ready applications with a strong focus on scalability, performance, clean architecture, and user experience.'
   },
   {
     id: 'experience',
@@ -270,7 +273,7 @@ const aboutTabs = [
     title: '3+ Years of',
     titleHighlight: 'Professional Craft',
     icon: 'Briefcase',
-    content: 'Over 3 years of hands-on engineering across full-stack web development, backend systems, and Android. I have built and deployed end-to-end systems, led API architecture decisions, optimized query performance, and delivered containerized microservices that scale under real-world load.'
+    content: 'Experienced in building real-world projects from concept to deployment across Full Stack Web Development, Android Development, Artificial Intelligence, and Machine Learning. Actively attend tech events, hackathons, and developer communities to stay updated with emerging technologies and industry trends. Hosted 4+ technical sessions on AI, software development, and modern technologies, sharing knowledge with students and aspiring developers. Passionate about content creation with experience in technical video production, video editing, photography, graphic design, and digital storytelling. Skilled at combining technical expertise with creativity to build impactful products and create engaging digital experiences.'
   },
   {
     id: 'achievements',
@@ -278,7 +281,7 @@ const aboutTabs = [
     title: 'Milestones &',
     titleHighlight: 'Recognition',
     icon: 'Trophy',
-    content: 'Grew a YouTube channel to 2.5K+ subscribers sharing deep engineering content. Published open-source projects with active community usage. Recognized for building high-throughput APIs achieving sub-20ms response times, and for designing Android apps with consistent 4.8+ star ratings.'
+    content: 'Recognized for delivering innovative solutions and contributing to the technology community through impactful projects and leadership. Achievements include being a Finalist in SAP Innovation Marathon 4.0, selected as a Google Student Ambassador 2026, Hosting 4+ technical sessions on AI and software development, actively participating in national hackathons and technical events, and building multiple production-ready applications that solve real-world problems. Additionally, I have grown a 2.5K+ YouTube community, where I create technical content to educate and inspire aspiring developers while continuously expanding my expertise through certifications, workshops, and hands-on learning.'
   }
 ];
 
@@ -737,12 +740,12 @@ const App = () => {
             {/* Row 1: Moving Right-to-Left */}
             <div className='flex whitespace-nowrap animate-marquee w-max' style={{ animationDelay: '3s' }}>
               {[htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo].map((logo, i) => (
-                <div key={i} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                <div key={i} className='inline-block px-12 md:px-16 opacity-70 hover:opacity-100 transition-opacity duration-500'>
                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
                 </div>
               ))}
               {[htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo].map((logo, i) => (
-                <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-70 hover:opacity-100 transition-opacity duration-500'>
                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
                 </div>
               ))}
@@ -751,12 +754,12 @@ const App = () => {
             {/* Row 2: Moving Left-to-Right (Reverse) */}
             <div className='flex whitespace-nowrap animate-marquee-reverse w-max'>
               {[cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo].map((logo, i) => (
-                <div key={i} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                <div key={i} className='inline-block px-12 md:px-16 opacity-70 hover:opacity-100 transition-opacity duration-500'>
                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
                 </div>
               ))}
               {[cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo].map((logo, i) => (
-                <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-70 hover:opacity-100 transition-opacity duration-500'>
                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
                 </div>
               ))}
@@ -765,12 +768,12 @@ const App = () => {
             {/* Row 3: Moving Right-to-Left */}
             <div className='flex whitespace-nowrap animate-marquee w-max'>
               {[reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo].map((logo, i) => (
-                <div key={i} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                <div key={i} className='inline-block px-12 md:px-16 opacity-70 hover:opacity-100 transition-opacity duration-500'>
                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
                 </div>
               ))}
               {[reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo, htmlLogo, jsLogo].map((logo, i) => (
-                <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-30 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0'>
+                <div key={i + 'copy'} className='inline-block px-12 md:px-16 opacity-70 hover:opacity-100 transition-opacity duration-500'>
                   <img src={logo} alt="tech" className={`h-14 w-14 md:h-24 md:w-24 object-contain ${[sqlLogo, pythonLogo, javaLogo, cppLogo, cloudLogo].includes(logo) ? 'scale-[1.35]' : ''}`} />
                 </div>
               ))}
@@ -806,13 +809,19 @@ const App = () => {
                 const currentTab = aboutTabs[activeCardIndex] || aboutTabs[0];
                 return (
                   <div>
-                    <h2 className='text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15] text-white'>
+                    <h2 className='text-4xl md:text-5xl font-black mb-4 tracking-tight leading-[1.15] text-white'>
                       {currentTab.title} <br />
                       <span className='text-red-500'>{currentTab.titleHighlight}</span>
                     </h2>
 
-                    {/* Modern Liquid Sliding Tabs Selector */}
-                    <div className="flex flex-wrap gap-2 p-1.5 bg-white/[0.02] border border-white/5 rounded-full mb-8 w-fit backdrop-blur-md">
+                    {currentTab.tagline && (
+                      <p className='text-xs md:text-sm font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3.5 py-2 rounded-xl mb-6 leading-relaxed tracking-normal max-w-xl'>
+                        {currentTab.tagline}
+                      </p>
+                    )}
+
+                    {/* Sleek Horizontal Tab Selector with animated underline */}
+                    <div className="flex border-b border-white/10 mb-8 w-full max-w-xl">
                       {aboutTabs.map((tab, idx) => {
                         const isActive = activeCardIndex === idx;
                         return (
@@ -822,18 +831,19 @@ const App = () => {
                               setAnimDirection(idx > activeCardIndex ? 1 : -1);
                               setActiveCardIndex(idx);
                             }}
-                            className={`relative px-4 py-2 rounded-full text-xs md:text-sm font-semibold tracking-wider transition-colors duration-300 flex items-center gap-2 ${isActive ? 'text-white' : 'text-white/40 hover:text-white/70'
-                              }`}
+                            className={`relative pb-3 flex-1 text-center text-xs md:text-sm font-bold tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
+                              isActive ? 'text-blue-400' : 'text-white/40 hover:text-white/85'
+                            }`}
                           >
+                            <IconWrapper name={tab.icon} size={15} className={isActive ? 'text-blue-400' : 'text-white/40'} />
+                            <span>{tab.label}</span>
                             {isActive && (
                               <motion.div
-                                layoutId="aboutActiveTab"
-                                className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full -z-10 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
-                                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                layoutId="aboutActiveTabUnderline"
+                                className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-red-500 shadow-[0_2px_10px_rgba(59,130,246,0.3)]"
+                                transition={{ type: "spring", stiffness: 350, damping: 30 }}
                               />
                             )}
-                            <IconWrapper name={tab.icon} size={15} />
-                            {tab.label}
                           </button>
                         );
                       })}
@@ -905,24 +915,24 @@ const App = () => {
                       {/* Left: info */}
                       <div className="flex flex-col justify-between flex-1 min-w-0">
                         <div>
-                          <span className="text-[9px] font-bold text-blue-400 tracking-widest uppercase bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">Full-Stack • Android • Backend</span>
-                          <h4 className="font-bold text-white text-base md:text-lg mt-3 leading-tight">Raju Perumalla</h4>
-                          <p className="text-[11px] text-white/50 mt-2 leading-relaxed">
-                            A dedicated engineer blending design integrity with bulletproof engineering — scalable web apps, high-performance APIs, and polished Android experiences.
+                          <span className="text-[9px] font-bold text-blue-400 tracking-widest uppercase bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-full">Full-Stack • Android • ML</span>
+                          <h4 className="font-bold text-white text-base md:text-lg mt-4 leading-tight">Raju Perumalla</h4>
+                          <p className="text-[11px] text-white/50 mt-2.5 leading-relaxed">
+                            Creating modern digital experiences through robust API engineering, intelligent machine learning workflows, and responsive web & mobile client architectures.
                           </p>
                         </div>
-                        <div className="flex gap-2 mt-3">
-                          <div className="flex-1 p-2 rounded-lg bg-black/40 border border-white/5 text-center">
-                            <span className="text-xs font-black text-white">3+</span>
-                            <p className="text-[9px] text-white/40 uppercase tracking-wider">Years</p>
+                        <div className="grid grid-cols-3 gap-2 mt-3">
+                          <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/5 text-center hover:bg-white/[0.04] transition-all duration-300">
+                            <span className="text-xs md:text-sm font-black text-blue-400">3+</span>
+                            <p className="text-[8px] text-white/40 uppercase tracking-widest mt-0.5">Years</p>
                           </div>
-                          <div className="flex-1 p-2 rounded-lg bg-black/40 border border-white/5 text-center">
-                            <span className="text-xs font-black text-white">15+</span>
-                            <p className="text-[9px] text-white/40 uppercase tracking-wider">Projects</p>
+                          <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/5 text-center hover:bg-white/[0.04] transition-all duration-300">
+                            <span className="text-xs md:text-sm font-black text-purple-400">15+</span>
+                            <p className="text-[8px] text-white/40 uppercase tracking-widest mt-0.5">Projects</p>
                           </div>
-                          <div className="flex-1 p-2 rounded-lg bg-black/40 border border-white/5 text-center">
-                            <span className="text-xs font-black text-white">2.5K+</span>
-                            <p className="text-[9px] text-white/40 uppercase tracking-wider">Subs</p>
+                          <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/5 text-center hover:bg-white/[0.04] transition-all duration-300">
+                            <span className="text-xs md:text-sm font-black text-red-400">2.5K+</span>
+                            <p className="text-[8px] text-white/40 uppercase tracking-widest mt-0.5">Subs</p>
                           </div>
                         </div>
                       </div>
@@ -931,7 +941,7 @@ const App = () => {
                         <img
                           src={profilePhoto}
                           alt="Raju Perumalla"
-                          className="h-full w-auto object-contain object-bottom"
+                          className="h-full w-auto object-contain object-bottom hover:scale-105 transition-transform duration-500"
                           style={{
                             maskImage: 'linear-gradient(to bottom, black 30%, transparent 95%)',
                             WebkitMaskImage: 'linear-gradient(to bottom, black 30%, transparent 95%)'
@@ -951,23 +961,23 @@ const App = () => {
                   >
                     <div className="absolute inset-0 bg-grid-card opacity-[0.03] pointer-events-none" />
                     <div className="flex justify-between items-start w-full">
-                      <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-                        <IconWrapper name="Layers" size={24} />
+                      <div className="p-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                        <IconWrapper name="Layers" size={20} />
                       </div>
                       <span className="text-[9px] font-bold tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full uppercase">Production Ready</span>
                     </div>
                     <div className="mt-auto space-y-2.5">
                       {[
-                        { name: 'DevRaj API Gateway', tech: 'FastAPI · Docker · PostgreSQL', badge: 'Live' },
-                        { name: 'Portfolio Platform', tech: 'React · Vite · Tailwind', badge: 'Shipped' },
-                        { name: 'Android Task Manager', tech: 'Kotlin · Room · MVVM', badge: '4.8★' },
+                        { name: 'Smart Guardian', tech: 'AI / Real-time Security & Android', badge: 'Active Dev', color: 'border-blue-500/20 text-blue-400 bg-blue-500/5' },
+                        { name: 'AI Student Travel Planner', tech: 'LLM Agent / React / Node.js', badge: 'Intelligent', color: 'border-purple-500/20 text-purple-400 bg-purple-500/5' },
+                        { name: 'Helmet Detection System', tech: 'ML / YOLOv8 / Computer Vision', badge: 'Model Train', color: 'border-emerald-500/20 text-emerald-400 bg-emerald-500/5' },
                       ].map((p) => (
-                        <div key={p.name} className="flex items-center justify-between p-2.5 rounded-lg bg-black/40 border border-white/5">
+                        <div key={p.name} className="flex items-center justify-between p-3 rounded-lg bg-white/[0.01] hover:bg-white/[0.04] border border-white/5 transition-all duration-300">
                           <div>
-                            <p className="text-[11px] font-bold text-white">{p.name}</p>
-                            <p className="text-[9px] text-white/40 font-mono">{p.tech}</p>
+                            <p className="text-[11px] font-bold text-white tracking-wide">{p.name}</p>
+                            <p className="text-[9px] text-white/40 font-mono mt-0.5">{p.tech}</p>
                           </div>
-                          <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">{p.badge}</span>
+                          <span className={`text-[8px] font-bold px-2 py-0.5 rounded-full border ${p.color}`}>{p.badge}</span>
                         </div>
                       ))}
                     </div>
@@ -983,26 +993,23 @@ const App = () => {
                   >
                     <div className="absolute inset-0 bg-grid-card opacity-[0.03] pointer-events-none" />
                     <div className="flex justify-between items-start w-full">
-                      <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
-                        <IconWrapper name="Briefcase" size={24} />
+                      <div className="p-2.5 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
+                        <IconWrapper name="Briefcase" size={20} />
                       </div>
-                      <div className="text-4xl md:text-5xl font-black text-white tracking-tight flex items-baseline leading-none">
-                        <Counter value={3} decimals={0} suffix="+" />
-                        <span className="text-xs font-bold text-blue-400 ml-1 tracking-widest uppercase bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">Yrs</span>
-                      </div>
+                      <span className="text-[9px] font-bold tracking-widest text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-full uppercase">Concept to Deploy</span>
                     </div>
                     <div className="mt-auto space-y-2.5">
                       {[
-                        { role: 'Full-Stack Developer', org: 'Freelance & Personal Projects', period: '2022 – Present' },
-                        { role: 'Android Engineer', org: 'Kotlin & Java Ecosystem', period: '2021 – Present' },
-                        { role: 'Backend Engineer', org: 'FastAPI · Node.js · PostgreSQL', period: '2023 – Present' },
+                        { role: 'Full Stack & Android Development', desc: 'Crafting responsive interfaces, mobile apps, and robust systems.', period: '2021 – Present' },
+                        { role: 'Artificial Intelligence & ML', desc: 'Predictive modeling, data systems, and smart automation pipelines.', period: '2023 – Present' },
+                        { role: 'Technical Session Host & Mentor', desc: 'Hosted 4+ workshops sharing engineering knowledge on modern tech.', period: 'Active' },
                       ].map((e) => (
-                        <div key={e.role} className="p-2.5 rounded-lg bg-black/40 border border-white/5">
+                        <div key={e.role} className="p-3 rounded-lg bg-white/[0.01] hover:bg-white/[0.04] border border-white/5 transition-all duration-300">
                           <div className="flex justify-between items-center">
-                            <p className="text-[11px] font-bold text-white">{e.role}</p>
-                            <span className="text-[9px] text-blue-400 font-mono">{e.period}</span>
+                            <p className="text-[11px] font-bold text-white tracking-wide">{e.role}</p>
+                            <span className="text-[8px] text-blue-400 font-mono bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">{e.period}</span>
                           </div>
-                          <p className="text-[9px] text-white/40 mt-0.5">{e.org}</p>
+                          <p className="text-[9px] text-white/40 mt-1 leading-normal">{e.desc}</p>
                         </div>
                       ))}
                     </div>
@@ -1018,26 +1025,52 @@ const App = () => {
                   >
                     <div className="absolute inset-0 bg-grid-card opacity-[0.03] pointer-events-none" />
                     <div className="flex justify-between items-start w-full">
-                      <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.15)]">
-                        <IconWrapper name="Trophy" size={24} />
+                      <div className="p-2.5 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+                        <IconWrapper name="Trophy" size={20} />
                       </div>
-                      <span className="text-[9px] font-bold tracking-widest text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full uppercase">Milestones</span>
+                      <span className="text-[9px] font-bold tracking-widest text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-full uppercase">Leadership & Milestones</span>
                     </div>
-                    <div className="mt-auto space-y-2.5">
-                      {[
-                        { icon: 'Youtube', label: '2.5K+ YouTube Subscribers', sub: 'DevRaj Engineering Channel', color: 'text-red-400' },
-                        { icon: 'Zap', label: 'Sub-20ms API Response Time', sub: 'FastAPI High-Throughput Systems', color: 'text-blue-400' },
-                        { icon: 'Star', label: '4.8★ Android App Rating', sub: 'Consistent User-Rated Quality', color: 'text-amber-400' },
-                        { icon: 'Globe', label: '450K+ Watch Minutes', sub: 'Global Developer Community', color: 'text-emerald-400' },
-                      ].map((a) => (
-                        <div key={a.label} className="flex items-center gap-3 p-2 rounded-lg bg-black/40 border border-white/5">
-                          <IconWrapper name={a.icon} size={14} className={a.color} />
-                          <div>
-                            <p className="text-[11px] font-bold text-white">{a.label}</p>
-                            <p className="text-[9px] text-white/40">{a.sub}</p>
-                          </div>
+                    <div className="mt-auto space-y-2">
+                      {/* Google */}
+                      <div className="flex items-center gap-3 p-2.5 rounded-lg bg-white/[0.01] hover:bg-white/[0.04] border border-white/5 transition-all duration-300">
+                        <div className="w-8 h-8 rounded-md bg-white/5 flex items-center justify-center flex-shrink-0">
+                          <img src={googleLogo} alt="Google" className="w-5 h-5 object-contain" />
                         </div>
-                      ))}
+                        <div>
+                          <p className="text-[11px] font-bold text-white tracking-wide">Google Student Ambassador 2026</p>
+                          <p className="text-[9px] text-white/40 mt-0.5">Selected lead for developer programs</p>
+                        </div>
+                      </div>
+                      {/* SAP */}
+                      <div className="flex items-center gap-3 p-2.5 rounded-lg bg-white/[0.01] hover:bg-white/[0.04] border border-white/5 transition-all duration-300">
+                        <div className="w-8 h-8 rounded-md bg-white/5 flex items-center justify-center flex-shrink-0">
+                          <img src={sapLogo} alt="SAP" className="w-6 h-6 object-contain" />
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold text-white tracking-wide">SAP Innovation Marathon 4.0 Finalist</p>
+                          <p className="text-[9px] text-white/40 mt-0.5">Pitched scalable software architecture</p>
+                        </div>
+                      </div>
+                      {/* Sessions */}
+                      <div className="flex items-center gap-3 p-2.5 rounded-lg bg-white/[0.01] hover:bg-white/[0.04] border border-white/5 transition-all duration-300">
+                        <div className="w-8 h-8 rounded-md bg-white/5 flex items-center justify-center flex-shrink-0">
+                          <IconWrapper name="Presentation" size={14} className="text-emerald-400" />
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold text-white tracking-wide">Hosted 4+ Technical Sessions</p>
+                          <p className="text-[9px] text-white/40 mt-0.5">AI and software development workshops</p>
+                        </div>
+                      </div>
+                      {/* YouTube */}
+                      <div className="flex items-center gap-3 p-2.5 rounded-lg bg-white/[0.01] hover:bg-white/[0.04] border border-white/5 transition-all duration-300">
+                        <div className="w-8 h-8 rounded-md bg-white/5 flex items-center justify-center flex-shrink-0">
+                          <img src={youtubeLogo} alt="YouTube" className="w-5 h-5 object-contain" />
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold text-white tracking-wide">2.5K+ Community Creator</p>
+                          <p className="text-[9px] text-white/40 mt-0.5">Educational technical video creation</p>
+                        </div>
+                      </div>
                     </div>
                   </BentoCard>
                 )}
