@@ -164,7 +164,7 @@ const Counter = ({ value, duration = 1.8, suffix = "", decimals = 0 }) => {
 };
 
 // Premium Bento Card with cursor spotlight
-const BentoCard = ({ children, className = '', spotlightClass = 'spotlight-blue' }) => {
+const BentoCard = ({ children, className = '', spotlightClass = 'spotlight-blue', disableAnimation = false }) => {
   const cardRef = useRef(null);
 
   const handleMouseMove = (e) => {
@@ -180,10 +180,12 @@ const BentoCard = ({ children, className = '', spotlightClass = 'spotlight-blue'
     <motion.div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      {...(!disableAnimation && {
+        initial: { opacity: 0, y: 30 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+      })}
       className={`spotlight-card ${spotlightClass} ${className} relative p-6 flex flex-col justify-between group`}
     >
       <div className="premium-card-overlay" />
@@ -244,50 +246,6 @@ const TerminalLogs = () => {
   );
 };
 
-// Animated smartphone wireframe for Android ecosystem card
-const PhoneWireframe = () => {
-  return (
-    <div className="relative w-full h-[100px] flex items-center justify-center overflow-hidden bg-black/40 border border-purple-500/10 rounded-lg">
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1.5 h-1.5 bg-purple-500/40 rounded-full"
-            style={{
-              left: `${15 + i * 14}%`,
-              bottom: 0,
-            }}
-            animate={{
-              y: [0, -100],
-              opacity: [0, 1, 0],
-              scale: [0.8, 1.2, 0.8]
-            }}
-            transition={{
-              duration: 3 + i * 0.8,
-              repeat: Infinity,
-              ease: "easeOut",
-              delay: i * 0.4
-            }}
-          />
-        ))}
-      </div>
-
-      <div className="w-14 h-24 border border-purple-500/30 rounded-xl relative flex items-center justify-center p-1 bg-purple-950/[0.08] shadow-[inset_0_0_10px_rgba(139,92,246,0.15)] animate-wireframe">
-        <div className="absolute top-1 w-6 h-1 bg-purple-500/30 rounded-full" />
-        <div className="w-full h-full border border-purple-500/20 rounded-lg flex flex-col items-center justify-between p-1 bg-black/30 overflow-hidden">
-          <div className="w-full h-full flex flex-col justify-around">
-            <div className="w-[80%] h-1 bg-purple-500/40 rounded mx-auto" />
-            <div className="w-[50%] h-1 bg-purple-500/30 rounded mx-auto" />
-            <div className="w-[70%] h-1.5 bg-gradient-to-r from-blue-500/40 to-purple-500/40 rounded mx-auto" />
-            <div className="w-[60%] h-1 bg-purple-500/30 rounded mx-auto" />
-          </div>
-          <div className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-ping" />
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const aboutTabs = [
   {
     id: 'story',
@@ -318,19 +276,48 @@ const aboutTabs = [
 const App = () => {
   const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeRoleIndex, setActiveRoleIndex] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState('down');
+  const [isAboutInView, setIsAboutInView] = useState(false);
+  const [isSkillsInView, setIsSkillsInView] = useState(false);
+  const aboutSectionRef = useRef(null);
+  const skillsSectionRef = useRef(null);
+  const lastScrollYRef = useRef(0);
 
-  const [activeAboutTab, setActiveAboutTab] = useState('story');
   const [showEmailTag, setShowEmailTag] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
   const [isInstaHovered, setIsInstaHovered] = useState(false);
   const [isFacebookHovered, setIsFacebookHovered] = useState(false);
   const [isDiscordHovered, setIsDiscordHovered] = useState(false);
   const [hasHoveredSocial, setHasHoveredSocial] = useState(false);
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [isAboutCardsHovered, setIsAboutCardsHovered] = useState(false);
+  const [animDirection, setAnimDirection] = useState(1);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText('23ra1a05b0@kpritech.ac.in');
     setEmailCopied(true);
     setTimeout(() => setEmailCopied(false), 2000);
+  };
+
+  const rotatingRoles = ['DEVELOPER', 'SPEAKER', 'CONTRIBUTOR'];
+  const rotatingRoleVariants = {
+    enter: (direction) => ({
+      opacity: 0,
+      y: direction === 'down' ? 30 : -30,
+      filter: 'blur(7px)',
+    }),
+    center: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+    },
+    exit: (direction) => ({
+      opacity: 0,
+      y: direction === 'down' ? -30 : 30,
+      filter: 'blur(7px)',
+    }),
   };
 
   useEffect(() => {
@@ -341,11 +328,124 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveRoleIndex((currentIndex) => (currentIndex + 1) % rotatingRoles.length);
+    }, 3000);
+
+    return () => clearInterval(timer);
+  }, [rotatingRoles.length]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 20);
+
+      if (currentScrollY > lastScrollYRef.current) {
+        setScrollDirection('down');
+      } else if (currentScrollY < lastScrollYRef.current) {
+        setScrollDirection('up');
+      }
+
+      lastScrollYRef.current = currentScrollY;
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const aboutSection = aboutSectionRef.current;
+    if (!aboutSection) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsAboutInView(entry.isIntersecting);
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(aboutSection);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const skillsSection = skillsSectionRef.current;
+    if (!skillsSection) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsSkillsInView(entry.isIntersecting);
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(skillsSection);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (isAboutCardsHovered) return;
+    const interval = setInterval(() => {
+      setAnimDirection(1);
+      setActiveCardIndex((prev) => (prev + 1) % 3);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [isAboutCardsHovered]);
+
+  const scrollAboutCards = (direction) => {
+    setAnimDirection(direction === 'left' ? -1 : 1);
+    setActiveCardIndex((prev) => {
+      if (direction === 'left') {
+        return (prev - 1 + 3) % 3;
+      } else {
+        return (prev + 1) % 3;
+      }
+    });
+  };
+
   return (
-    <div className='relative min-h-screen text-white'>
-      <div className='fixed inset-0 bg-[#030303] -z-20' />
+    <div
+      className='relative min-h-screen text-white'
+      style={{
+        '--scroll-transition-ease': scrollDirection === 'down' ? 'ease-in' : 'ease-out',
+      }}
+    >
+      <div className={`bg-red-gradient ${isScrolled ? 'bg-fade-out' : ''}`} />
+      <div className={`bg-blue-gradient ${isAboutInView || isSkillsInView ? 'bg-fade-out' : isScrolled ? 'bg-fade-in' : ''}`} />
+      <div className={`bg-green-gradient ${isAboutInView ? 'bg-fade-in' : ''}`} />
+      <div className={`bg-yellow-gradient ${isSkillsInView ? 'bg-fade-in' : ''}`} />
+      <div
+        className={`fixed top-40 right-25 md:top-38 md:right-[36rem] z-[-9] pointer-events-none select-none whitespace-nowrap transition-all duration-150 ${isScrolled ? 'opacity-0 translate-y-4 blur-sm' : 'opacity-100 translate-y-0 blur-0'}`}
+        style={{ transitionTimingFunction: 'var(--scroll-transition-ease)' }}
+      >
+        <div className='text-white font-black leading-none tracking-tight text-lg sm:text-xl md:text-2xl lg:text-3xl flex items-center'>
+          <span className='text-black'>I'M  A</span>
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={rotatingRoles[activeRoleIndex]}
+              custom={scrollDirection}
+              variants={rotatingRoleVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                opacity: { duration: 0.05 },
+                y: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+                filter: { duration: 0.1 },
+              }}
+              className='text-white inline-block min-w-[12ch] ml-2'
+            >
+              {rotatingRoles[activeRoleIndex]}
+            </motion.span>
+          </AnimatePresence>
+        </div>
+      </div>
       <div className='bg-grid' />
-      <div className='water-caustics' />
 
       <AnimatePresence>
         {loading && <Loader />}
@@ -643,7 +743,7 @@ const App = () => {
           variants={cinematicContainer}
           className='py-12 border-y border-white/5 bg-[#0c0c0d] overflow-hidden relative marquee-container'
         >
-          <div className='w-full overflow-hidden flex flex-col gap-4 md:gap-6 -rotate-[10deg] scale-125 py-4'>
+          <div className='w-[115%] max-w-none -mx-[7.5%] overflow-hidden flex flex-col gap-4 md:gap-6 -rotate-[10deg] scale-125 py-4'>
             {/* Row 1: Moving Right-to-Left */}
             <div className='flex whitespace-nowrap animate-marquee w-max' style={{ animationDelay: '3s' }}>
               {[htmlLogo, jsLogo, reactLogo, javaLogo, dockerLogo, githubLogo, socialLogo, cppLogo, cloudLogo, dbLogo, cssLogo, nodeLogo, pythonLogo, sqlLogo].map((logo, i) => (
@@ -687,11 +787,11 @@ const App = () => {
             </div>
           </div>
         </motion.section>
-        <section id='about' className='py-20 md:py-24 px-8 md:px-12 my-12 grid lg:grid-cols-[1.2fr_1fr] gap-16 lg:gap-24 items-start relative overflow-hidden'>
+        <section id='about' ref={aboutSectionRef} className='py-20 md:py-24 px-8 md:px-12 my-12 grid lg:grid-cols-[1.2fr_1fr] gap-16 lg:gap-24 items-start relative overflow-hidden'>
           {/* Blurred background with left-right feathering, no border */}
           <div className="absolute inset-0 bg-black/40 backdrop-blur-md -z-10" style={{
-            maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+            maskImage: 'linear-gradient(to right, transparent, black 18%, black 82%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 18%, black 82%, transparent)'
           }} />
 
           {/* Decorative Glowing Accent Behind Column */}
@@ -712,9 +812,8 @@ const App = () => {
                 <span className='h-px w-8 bg-blue-500 block' /> About Me
               </h3>
 
-              {/* Dynamic Switching Headers */}
               {(() => {
-                const currentTab = aboutTabs.find(t => t.id === activeAboutTab) || aboutTabs[0];
+                const currentTab = aboutTabs[activeCardIndex] || aboutTabs[0];
                 return (
                   <div>
                     <h2 className='text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15] text-white'>
@@ -724,12 +823,15 @@ const App = () => {
 
                     {/* Modern Liquid Sliding Tabs Selector */}
                     <div className="flex flex-wrap gap-2 p-1.5 bg-white/[0.02] border border-white/5 rounded-full mb-8 w-fit backdrop-blur-md">
-                      {aboutTabs.map((tab) => {
-                        const isActive = activeAboutTab === tab.id;
+                      {aboutTabs.map((tab, idx) => {
+                        const isActive = activeCardIndex === idx;
                         return (
                           <button
                             key={tab.id}
-                            onClick={() => setActiveAboutTab(tab.id)}
+                            onClick={() => {
+                              setAnimDirection(idx > activeCardIndex ? 1 : -1);
+                              setActiveCardIndex(idx);
+                            }}
                             className={`relative px-4 py-2 rounded-full text-xs md:text-sm font-semibold tracking-wider transition-colors duration-300 flex items-center gap-2 ${isActive ? 'text-white' : 'text-white/40 hover:text-white/70'
                               }`}
                           >
@@ -751,7 +853,7 @@ const App = () => {
                     <div className="relative min-h-[160px] md:min-h-[140px]">
                       <AnimatePresence mode="wait">
                         <motion.div
-                          key={activeAboutTab}
+                          key={activeCardIndex}
                           initial={{ opacity: 0, y: 12, filter: 'blur(8px)' }}
                           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                           exit={{ opacity: 0, y: -12, filter: 'blur(8px)' }}
@@ -778,109 +880,186 @@ const App = () => {
             </div>
           </motion.div>
 
-          {/* Right Column: Holographic 3D Bento Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-6 gap-4 w-full auto-rows-[160px] md:auto-rows-[185px]">
-            {/* Card 1: Experience Counter */}
-            <BentoCard spotlightClass="spotlight-blue" className="sm:col-span-3 sm:row-span-1">
-              <div className="flex justify-between items-start w-full">
-                <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
-                  <IconWrapper name="Zap" size={24} className="animate-pulse" />
-                </div>
-                {/* Spinning gear and radar */}
-                <div className="relative w-12 h-12 flex items-center justify-center">
-                  <div className="absolute w-12 h-12 border-2 border-dashed border-blue-500/20 rounded-full animate-gear" />
-                  <div className="absolute w-8 h-8 border border-blue-500/40 rounded-full animate-radar" />
-                  <div className="w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_10px_#3b82f6]" />
-                </div>
-              </div>
-              <div className="mt-auto">
-                <div className="text-4xl md:text-5xl font-black text-white tracking-tight flex items-baseline leading-none">
-                  <Counter value={3} decimals={0} suffix="+" />
-                  <span className="text-sm font-semibold text-blue-400 ml-2 tracking-wide uppercase">Years</span>
-                </div>
-                <p className="text-[11px] text-white/50 mt-1 leading-snug">
-                  Of developing seamless full-stack web and native Android platforms.
-                </p>
-              </div>
-            </BentoCard>
-
-            {/* Card 2: YouTube Creator */}
-            <BentoCard spotlightClass="spotlight-red" className="sm:col-span-3 sm:row-span-1">
-              <div className="flex justify-between items-start w-full">
-                <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500">
-                  <IconWrapper name="Youtube" size={24} />
-                </div>
-                <span className="text-[9px] font-bold tracking-widest text-red-400 bg-red-500/10 border border-red-500/20 px-2.5 py-0.5 rounded-full uppercase">
-                  Creator
-                </span>
-              </div>
-              <div className="mt-auto">
-                <div className="text-4xl md:text-5xl font-black text-white tracking-tight flex items-baseline leading-none">
-                  <Counter value={2.5} decimals={1} suffix="K+" />
-                  <span className="text-sm font-semibold text-red-500 ml-2 tracking-wide uppercase font-mono">Subs</span>
-                </div>
-                <p className="text-[11px] text-white/50 mt-1 leading-snug">
-                  Teaching tech, system design, and API design to developers worldwide.
-                </p>
-              </div>
-            </BentoCard>
-
-            {/* Card 3: Terminal FastAPI */}
-            <BentoCard spotlightClass="spotlight-emerald" className="sm:col-span-3 sm:row-span-2">
-              <div className="flex flex-col h-full justify-between">
-                <div>
-                  <div className="flex justify-between items-center w-full mb-3">
-                    <div className="flex gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-amber-500/50" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/50" />
+          {/* Right Column: Carousel with slide animation */}
+          <div
+            className="relative w-full overflow-hidden"
+            style={{
+              maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)'
+            }}
+            onMouseEnter={() => setIsAboutCardsHovered(true)}
+            onMouseLeave={() => setIsAboutCardsHovered(false)}
+          >
+            <AnimatePresence mode="wait" custom={animDirection}>
+              <motion.div
+                key={activeCardIndex}
+                custom={animDirection}
+                variants={{
+                  enter: (dir) => ({ x: dir >= 0 ? '100%' : '-100%', opacity: 0 }),
+                  center: { x: 0, opacity: 1 },
+                  exit: (dir) => ({ x: dir >= 0 ? '-100%' : '100%', opacity: 0 })
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.38, ease: [0.25, 1, 0.5, 1] }}
+              >
+                {/* Card 1: Experience Counter */}
+                {activeCardIndex === 0 && (
+                  <BentoCard
+                    disableAnimation={true}
+                    spotlightClass="spotlight-blue"
+                    className="w-full h-[400px] md:h-[440px] relative overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-grid-card opacity-[0.03] pointer-events-none" />
+                    <div className="flex justify-between items-start w-full">
+                      <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
+                        <IconWrapper name="Zap" size={24} className="animate-pulse" />
+                      </div>
+                      <div className="relative w-12 h-12 flex items-center justify-center">
+                        <div className="absolute w-12 h-12 border-2 border-dashed border-blue-500/20 rounded-full animate-gear" />
+                        <div className="absolute w-8 h-8 border border-blue-500/40 rounded-full animate-radar" />
+                        <div className="w-2 h-2 bg-blue-500 rounded-full shadow-[0_0_10px_#3b82f6]" />
+                      </div>
                     </div>
-                    <span className="text-[9px] font-bold font-mono tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
-                      api.fastapi.py
-                    </span>
-                  </div>
-                  <TerminalLogs />
-                </div>
-                <div className="mt-3">
-                  <h4 className="font-bold text-white text-sm md:text-base flex items-center gap-1.5">
-                    <IconWrapper name="Terminal" size={16} className="text-emerald-400" />
-                    High-Performance APIs
-                  </h4>
-                  <p className="text-[11px] text-white/50 mt-0.5 leading-snug">
-                    Building secure, zero-lag endpoints using Python, FastAPI, and robust SQL querying.
-                  </p>
-                </div>
-              </div>
-            </BentoCard>
+                    <div className="mt-auto">
+                      <div className="text-4xl md:text-5xl font-black text-white tracking-tight flex items-baseline leading-none">
+                        <Counter value={3} decimals={0} suffix="+" />
+                        <span className="text-xs font-bold text-blue-400 ml-2 tracking-widest uppercase bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">Years</span>
+                      </div>
+                      <h4 className="font-bold text-white text-sm md:text-base mt-4">Full-Stack Engineering</h4>
+                      <p className="text-[12px] text-white/50 mt-1 leading-relaxed">
+                        Building robust, scalable interfaces &amp; high-performance applications with cutting-edge architectures.
+                      </p>
+                    </div>
+                  </BentoCard>
+                )}
 
-            {/* Card 4: Phone Wireframe */}
-            <BentoCard spotlightClass="spotlight-purple" className="sm:col-span-3 sm:row-span-2">
-              <div className="flex flex-col h-full justify-between">
-                <div>
-                  <div className="flex justify-between items-center w-full mb-3">
-                    <span className="text-[9px] font-bold tracking-widest text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded uppercase">
-                      Ecosystem
-                    </span>
-                    <IconWrapper name="Layers" size={16} className="text-purple-400" />
-                  </div>
-                  <PhoneWireframe />
-                </div>
-                <div className="mt-3">
-                  <h4 className="font-bold text-white text-sm md:text-base flex items-center gap-1.5">
-                    <IconWrapper name="Smartphone" size={16} className="text-purple-400" />
-                    Mobile & App Design
-                  </h4>
-                  <p className="text-[11px] text-white/50 mt-0.5 leading-snug">
-                    Developing modern applications using native platforms, Java/Kotlin, and cross-platform tools.
-                  </p>
-                </div>
+                {/* Card 2: Terminal FastAPI */}
+                {activeCardIndex === 1 && (
+                  <BentoCard
+                    disableAnimation={true}
+                    spotlightClass="spotlight-emerald"
+                    className="w-full h-[400px] md:h-[440px] relative overflow-hidden"
+                  >
+                    <div className="flex flex-col h-full justify-between">
+                      <div>
+                        <div className="flex justify-between items-center w-full mb-3">
+                          <div className="flex gap-1.5">
+                            <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
+                            <div className="w-2.5 h-2.5 rounded-full bg-amber-500/50" />
+                            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/50" />
+                          </div>
+                          <span className="text-[9px] font-bold font-mono tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                            api.fastapi.py
+                          </span>
+                        </div>
+                        <TerminalLogs />
+                      </div>
+                      <div className="mt-3">
+                        <h4 className="font-bold text-white text-sm md:text-base flex items-center gap-1.5">
+                          <IconWrapper name="Terminal" size={16} className="text-emerald-400" />
+                          High-Performance APIs
+                        </h4>
+                        <p className="text-[12px] text-white/50 mt-1 leading-relaxed">
+                          Optimized, zero-lag backend endpoints leveraging Python, FastAPI, asynchronous event loops, and relational SQL queries.
+                        </p>
+                      </div>
+                    </div>
+                  </BentoCard>
+                )}
+
+                {/* Card 3: YouTube Creator */}
+                {activeCardIndex === 2 && (
+                  <BentoCard
+                    disableAnimation={true}
+                    spotlightClass="spotlight-red"
+                    className="w-full h-[400px] md:h-[440px] relative overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-grid-card opacity-[0.03] pointer-events-none" />
+                    <div className="flex justify-between items-start w-full">
+                      <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 shadow-[0_0_15px_rgba(239,68,68,0.15)]">
+                        <IconWrapper name="Youtube" size={24} />
+                      </div>
+                      <span className="text-[9px] font-bold tracking-widest text-red-400 bg-red-500/10 border border-red-500/20 px-2.5 py-1 rounded-full uppercase">
+                        Creator
+                      </span>
+                    </div>
+                    <div className="mt-auto">
+                      <div className="text-4xl md:text-5xl font-black text-white tracking-tight flex items-baseline leading-none">
+                        <Counter value={2.5} decimals={1} suffix="K+" />
+                        <span className="text-xs font-bold text-red-500 ml-2 tracking-widest uppercase bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded-full font-mono">Subs</span>
+                      </div>
+                      <div className="mt-3 flex gap-2">
+                        <div className="flex-1 p-2 rounded-lg bg-black/40 border border-white/5 flex flex-col justify-center">
+                          <span className="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Watch time</span>
+                          <span className="text-xs font-bold text-white/90">450K+ mins</span>
+                        </div>
+                        <div className="flex-1 p-2 rounded-lg bg-black/40 border border-white/5 flex flex-col justify-center">
+                          <span className="text-[9px] text-white/40 uppercase tracking-wider font-semibold">Growth</span>
+                          <span className="text-xs font-bold text-emerald-400">+18.4%</span>
+                        </div>
+                      </div>
+                      <p className="text-[12px] text-white/50 mt-3 leading-relaxed">
+                        Educating global developers on advanced systems engineering, RESTful API design, and backend development.
+                      </p>
+                    </div>
+                  </BentoCard>
+                )}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Nav buttons */}
+            <div className="flex items-center justify-center gap-4 mt-6">
+              <button
+                type="button"
+                onClick={() => {
+                  setAnimDirection(-1);
+                  setActiveCardIndex(i => (i - 1 + 3) % 3);
+                }}
+                aria-label="Previous card"
+                className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 hover:text-white text-white/60 transition-all duration-300 shadow-md backdrop-blur-sm"
+              >
+                <IconWrapper name="ChevronLeft" size={16} />
+              </button>
+
+              <div className="flex gap-2">
+                {[0, 1, 2].map((idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => {
+                      setAnimDirection(idx > activeCardIndex ? 1 : -1);
+                      setActiveCardIndex(idx);
+                    }}
+                    className={`h-2.5 rounded-full transition-all duration-300 ${
+                      activeCardIndex === idx
+                        ? 'w-7 bg-gradient-to-r from-blue-500 to-purple-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]'
+                        : 'w-2.5 bg-white/20 hover:bg-white/40'
+                    }`}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
+                ))}
               </div>
-            </BentoCard>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setAnimDirection(1);
+                  setActiveCardIndex(i => (i + 1) % 3);
+                }}
+                aria-label="Next card"
+                className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 hover:text-white text-white/60 transition-all duration-300 shadow-md backdrop-blur-sm"
+              >
+                <IconWrapper name="ChevronRight" size={16} />
+              </button>
+            </div>
           </div>
         </section>
 
+
         {/* Skills Section */}
-        <section id='skills' className='py-32'>
+        <section id='skills' ref={skillsSectionRef} className='py-32'>
           <div className='text-center mb-20'>
             <h3 className='text-blue-500 font-medium mb-4'>Tech Stack</h3>
             <h2 className='text-4xl font-bold'>Tools I use to create <br /><span className='text-gradient'>Magic</span></h2>
