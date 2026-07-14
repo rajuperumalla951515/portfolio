@@ -26,6 +26,14 @@ import googleLogo from './assets/google-logo.png';
 import sapLogo from './assets/sap-logo.png';
 import gmailLogo from './assets/gmail.png';
 import instaProfile from './assets/insta profile.png';
+import smartGuardianVideo from './videos/smartguardian shoert video for portfolio.mp4';
+import smartGuardianLogo from './assets/SmartGuardianlogo.png';
+import tripzyVideo from './videos/tripzy shoert video for portfolio.mp4';
+import tripzyLogo from './assets/Tripzylogo.png';
+import cipherdocVideo from './videos/cipherdoc shoert video for portfolio.mp4';
+import cipherdocLogo from './assets/logo_2.png';
+import nutrixaVideo from './videos/Nutrixa shoert video for portfolio.mp4';
+import nutrixaLogo from './assets/Nutrixa.png';
 
 // Safe icon access helper
 const IconWrapper = ({ name, ...props }) => {
@@ -289,6 +297,34 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeRoleIndex, setActiveRoleIndex] = useState(0);
+
+  // Contact Form State
+  const [contactData, setContactData] = useState({ name: '', email: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    try {
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contactData)
+      });
+      if (response.ok) {
+        setSubmitStatus('success');
+        setContactData({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (err) {
+      setSubmitStatus('error');
+    }
+    setIsSubmitting(false);
+    setTimeout(() => setSubmitStatus(null), 5000);
+  };
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollDirection, setScrollDirection] = useState('down');
   const [isAboutInView, setIsAboutInView] = useState(false);
@@ -306,6 +342,8 @@ const App = () => {
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const [isAboutCardsHovered, setIsAboutCardsHovered] = useState(false);
   const [animDirection, setAnimDirection] = useState(1);
+  const [activeSkillTab, setActiveSkillTab] = useState(0);
+  const [skillAnimDir, setSkillAnimDir] = useState(1);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText('23ra1a05b0@kpritech.ac.in');
@@ -409,9 +447,9 @@ const App = () => {
       }}
     >
       <div className={`bg-red-gradient ${isScrolled ? 'bg-fade-out' : ''}`} />
-      <div className={`bg-blue-gradient ${isAboutInView || isSkillsInView ? 'bg-fade-out' : isScrolled ? 'bg-fade-in' : ''}`} />
+      <div className={`bg-black-gradient ${isAboutInView || isSkillsInView ? 'bg-fade-out' : isScrolled ? 'bg-fade-in' : ''}`} />
       <div className={`bg-green-gradient ${isAboutInView ? 'bg-fade-in' : ''}`} />
-      <div className={`bg-yellow-gradient ${isSkillsInView ? 'bg-fade-in' : ''}`} />
+      <div className={`bg-white-gradient ${isSkillsInView ? 'bg-fade-in' : ''}`} />
       <div
         className={`fixed top-40 right-25 md:top-38 md:right-[36rem] z-[-9] pointer-events-none select-none whitespace-nowrap transition-all duration-150 ${isScrolled ? 'opacity-0 translate-y-4 blur-sm' : 'opacity-100 translate-y-0 blur-0'}`}
         style={{ transitionTimingFunction: 'var(--scroll-transition-ease)' }}
@@ -625,7 +663,7 @@ const App = () => {
                               </span>
                             </div>
 
-                            {/* Action buttons — icons only */}
+                            {/* Action buttons â€” icons only */}
                             <div className="flex gap-1.5">
                               <motion.button
                                 onClick={handleCopyEmail}
@@ -811,7 +849,7 @@ const App = () => {
                   <div>
                     <h2 className='text-4xl md:text-5xl font-black mb-4 tracking-tight leading-[1.15] text-white'>
                       {currentTab.title} <br />
-                      <span className='text-red-500'>{currentTab.titleHighlight}</span>
+                      <span className='text-yellow-400'>{currentTab.titleHighlight}</span>
                     </h2>
 
                     {currentTab.tagline && (
@@ -999,8 +1037,8 @@ const App = () => {
                     </div>
                     <div className="mt-auto space-y-2.5">
                       {[
-                        { role: 'Full Stack & Android Development', desc: 'Crafting responsive interfaces, mobile apps, and robust systems.', period: '2021 – Present' },
-                        { role: 'Artificial Intelligence & ML', desc: 'Predictive modeling, data systems, and smart automation pipelines.', period: '2023 – Present' },
+                        { role: 'Full Stack & Android Development', desc: 'Crafting responsive interfaces, mobile apps, and robust systems.', period: '2021 â€“ Present' },
+                        { role: 'Artificial Intelligence & ML', desc: 'Predictive modeling, data systems, and smart automation pipelines.', period: '2023 â€“ Present' },
                         { role: 'Technical Session Host & Mentor', desc: 'Hosted 4+ workshops sharing engineering knowledge on modern tech.', period: 'Active' },
                       ].map((e) => (
                         <div key={e.role} className="p-3 rounded-lg bg-white/[0.01] hover:bg-white/[0.04] border border-white/5 transition-all duration-300">
@@ -1099,11 +1137,10 @@ const App = () => {
                       setAnimDirection(idx > activeCardIndex ? 1 : -1);
                       setActiveCardIndex(idx);
                     }}
-                    className={`h-2.5 rounded-full transition-all duration-300 ${
-                      activeCardIndex === idx
-                        ? 'w-7 bg-gradient-to-r from-blue-500 to-purple-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]'
-                        : 'w-2.5 bg-white/20 hover:bg-white/40'
-                    }`}
+                    className={`h-2.5 rounded-full transition-all duration-300 ${activeCardIndex === idx
+                      ? 'w-7 bg-gradient-to-r from-blue-500 to-purple-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]'
+                      : 'w-2.5 bg-white/20 hover:bg-white/40'
+                      }`}
                     aria-label={`Go to slide ${idx + 1}`}
                   />
                 ))}
@@ -1126,61 +1163,189 @@ const App = () => {
 
 
         {/* Skills Section */}
-        <section id='skills' ref={skillsSectionRef} className='py-32'>
-          <div className='text-center mb-20 flex flex-col items-center'>
-            <h3 className='text-blue-500 font-semibold mb-4 flex items-center justify-center gap-2 text-sm tracking-widest uppercase'>
-              <span className='h-px w-8 bg-blue-500 block' /> Technical Expertise <span className='h-px w-8 bg-blue-500 block' />
-            </h3>
-            <h2 className='text-4xl md:text-5xl font-black tracking-tight leading-[1.15] text-white'>
-              Core Technologies &amp; <br /><span className='text-gradient'>Engineering Stack</span>
-            </h2>
-          </div>
+        <section id='skills' ref={skillsSectionRef} className='py-10 md:py-14 px-6 md:px-12 my-8 relative overflow-hidden'>
 
-          <div className='grid grid-cols-2 md:grid-cols-4 gap-6'>
-            {[
-              { name: 'React', level: '95%', logo: reactLogo },
-              { name: 'Java', level: '90%', logo: javaLogo },
-              { name: 'JavaScript', level: '92%', logo: jsLogo },
-              { name: 'HTML5', level: '98%', logo: htmlLogo },
-              { name: 'CSS3', level: '95%', logo: cssLogo },
-              { name: 'Docker', level: '75%', logo: dockerLogo },
-              { name: 'GitHub', level: '92%', logo: githubLogo },
-              { name: 'Social Apps', level: '88%', logo: socialLogo },
-            ].map((skill, index) => (
-              <motion.div
-                key={index}
-                initial={{ y: 20, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className='premium-card p-6 flex flex-col items-center text-center group'
-              >
-                <div className='w-16 h-16 mb-4 flex items-center justify-center p-3 glass rounded-xl group-hover:border-primary/50 transition-colors'>
-                  <img src={skill.logo} alt={skill.name} className='w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500' />
+          {/* True Transparent Background with Smooth Cutout */}
+          {/* Left Block */}
+          <div className="absolute top-0 bottom-0 left-0 right-[159px] md:right-[199px] bg-[#0a0a0a] rounded-l-[2rem] md:rounded-l-[2.5rem] rounded-tr-[1.5rem] md:rounded-tr-[2rem] -z-10 transition-all duration-300" />
+
+          {/* Bottom-Right Block */}
+          <div className="absolute top-[69px] md:top-[89px] bottom-0 right-0 w-[161px] md:w-[201px] bg-[#0a0a0a] rounded-br-[2rem] md:rounded-br-[2.5rem] rounded-tr-[1.5rem] md:rounded-tr-[2rem] -z-10 transition-all duration-300" />
+
+          {/* Inward Curve Smoother */}
+          <svg width="32" height="32" viewBox="0 0 32 32" className="absolute top-[38px] md:top-[58px] right-[128px] md:right-[168px] text-[#0a0a0a] fill-current -z-10 rotate-180 transition-all duration-300">
+            <path d="M 0 0 H 32 V 32 C 32 14.3 17.7 0 0 0 Z" />
+          </svg>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="absolute top-4 right-6 md:top-8 md:right-8 z-20"
+          >
+            <h2 className="text-3xl md:text-4xl font-black tracking-widest uppercase text-black">
+              SKILLS
+            </h2>
+          </motion.div>
+
+          {/* Three Line Scrolling Marquee */}
+          <div className="space-y-3 md:space-y-4 relative z-10 w-full mt-20 md:mt-16">
+
+            {/* Line 1: Frontend & Basic Web Stack */}
+            <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 w-full">
+              {/* Fixed Left Label */}
+              <div className="w-fit lg:w-60 shrink-0 flex items-center justify-start text-left">
+                <span className="text-2xl md:text-3xl font-black tracking-wider uppercase text-white">
+                  FRONT END
+                </span>
+              </div>
+              {/* Scrolling Content */}
+              <div className="marquee-container flex-1 py-1">
+                <div className="animate-marquee-ltr flex gap-4 md:gap-6 hover:[animation-play-state:paused]">
+                  {[
+                    { name: 'HTML5', level: 98, logo: htmlLogo, color: '#f97316' },
+                    { name: 'CSS3', level: 95, logo: cssLogo, color: '#3b82f6' },
+                    { name: 'JavaScript', level: 92, logo: jsLogo, color: '#eab308' },
+                    { name: 'React', level: 95, logo: reactLogo, color: '#06b6d4' },
+                    { name: 'Node.js', level: 82, logo: nodeLogo, color: '#22c55e' },
+                    { name: 'Git & GitHub', level: 92, logo: githubLogo, color: '#8b5cf6' },
+                    { name: 'FastAPI', level: 88, icon: 'Zap', color: '#eab308' },
+                    { name: 'REST API', level: 85, icon: 'Network', color: '#0ea5e9' },
+                  ].map((s, idx) => (
+                    <div
+                      key={`${s.name}-row1-${idx}`}
+                      className="flex items-center gap-4 px-6 py-4 rounded-2xl border border-white/5 bg-black min-w-[260px] transition-all duration-300 hover:border-white/16 hover:bg-[#0f0f0f] group cursor-default relative overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-transparent group-hover:from-white/[0.02] pointer-events-none" />
+                      <div className="absolute top-0 left-0 w-full h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${s.color}aa, transparent)` }} />
+                      <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/10 group-hover:border-white/20 transition-all duration-300">
+                        {s.logo ? (
+                          <img src={s.logo} alt={s.name} className="w-6 h-6 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-md" />
+                        ) : (
+                          <IconWrapper name={s.icon} size={20} style={{ color: s.color }} className="transition-all duration-300 drop-shadow-md" />
+                        )}
+                      </div>
+                      <div className="flex flex-col text-left">
+                        <span className="text-white font-bold text-sm tracking-wide">{s.name}</span>
+                        <span className="text-[10px] text-white/35 font-semibold group-hover:text-white/60 transition-colors mt-0.5">{s.level}% Proficiency</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <h4 className='font-bold mb-2'>{skill.name}</h4>
-                <div className='w-full bg-white/5 h-1.5 rounded-full overflow-hidden'>
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: skill.level }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.5, ease: 'easeOut' }}
-                    className='h-full bg-gradient-to-r from-blue-500 to-purple-500'
-                  />
+              </div>
+            </div>
+
+            {/* Line 1.5: Backend & APIs */}
+            <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 w-full">
+              {/* Fixed Left Label */}
+              <div className="w-fit lg:w-60 shrink-0 flex items-center justify-start text-left">
+                <span className="text-2xl md:text-3xl font-black tracking-wider uppercase text-white">
+                  BACK END
+                </span>
+              </div>
+              {/* Scrolling Content */}
+              <div className="marquee-container flex-1 py-1">
+                <div className="animate-marquee-ltr-slow flex gap-4 md:gap-6 hover:[animation-play-state:paused]">
+                  {[
+                    { name: 'Node.js', level: 85, logo: nodeLogo, color: '#22c55e' },
+                    { name: 'Express.js', level: 82, icon: 'Server', color: '#6b7280' },
+                    { name: 'FastAPI', level: 88, icon: 'Zap', color: '#eab308' },
+                    { name: 'REST API', level: 85, icon: 'Network', color: '#0ea5e9' },
+                    { name: 'GraphQL', level: 75, icon: 'Share2', color: '#ec4899' },
+                    { name: 'Docker', level: 75, logo: dockerLogo, color: '#0ea5e9' },
+                    { name: 'Firebase', level: 80, icon: 'Flame', color: '#f97316' },
+                    { name: 'PostgreSQL', level: 80, logo: sqlLogo, color: '#3b82f6' },
+                  ].map((s, idx) => (
+                    <div
+                      key={`${s.name}-row15-${idx}`}
+                      className="flex items-center gap-4 px-6 py-4 rounded-2xl border border-white/5 bg-black min-w-[260px] transition-all duration-300 hover:border-white/16 hover:bg-[#0f0f0f] group cursor-default relative overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-transparent group-hover:from-white/[0.02] pointer-events-none" />
+                      <div className="absolute top-0 left-0 w-full h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${s.color}aa, transparent)` }} />
+                      <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/10 group-hover:border-white/20 transition-all duration-300">
+                        {s.logo ? (
+                          <img src={s.logo} alt={s.name} className="w-6 h-6 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-md" />
+                        ) : (
+                          <IconWrapper name={s.icon} size={20} style={{ color: s.color }} className="transition-all duration-300 drop-shadow-md" />
+                        )}
+                      </div>
+                      <div className="flex flex-col text-left">
+                        <span className="text-white font-bold text-sm tracking-wide">{s.name}</span>
+                        <span className="text-[10px] text-white/35 font-semibold group-hover:text-white/60 transition-colors mt-0.5">{s.level}% Proficiency</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </motion.div>
-            ))}
+              </div>
+            </div>
+
+            {/* Line 3: Languages, AI, Mobile & Data */}
+            <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8 w-full">
+              {/* Fixed Left Label */}
+              <div className="w-fit lg:w-60 shrink-0 flex items-center justify-start text-left">
+                <span className="text-2xl md:text-3xl font-black tracking-wider uppercase text-white">
+                  LANGUAGES
+                </span>
+              </div>
+              {/* Scrolling Content */}
+              <div className="marquee-container flex-1 py-1">
+                <div className="animate-marquee-ltr flex gap-4 md:gap-6 hover:[animation-play-state:paused]">
+                  {[
+                    { name: 'Python', level: 87, logo: pythonLogo, color: '#3b82f6' },
+                    { name: 'Machine Learning', desc: 'Predictive Models', icon: 'Brain', color: '#a855f7' },
+                    { name: 'Docker', level: 75, logo: dockerLogo, color: '#0ea5e9' },
+                    { name: 'Java', level: 90, logo: javaLogo, color: '#f59e0b' },
+                    { name: 'Computer Vision', desc: 'Object Detection', icon: 'Eye', color: '#06b6d4' },
+                    { name: 'C++', level: 78, logo: cppLogo, color: '#ef4444' },
+                    { name: 'YOLOv8 & ONNX', desc: 'Real-time Vision', icon: 'Crosshair', color: '#10b981' },
+                    { name: 'Cloud Platforms', level: 70, logo: cloudLogo, color: '#06b6d4' },
+                    { name: 'NLP & LLM Agents', desc: 'Generative AI', icon: 'MessageSquare', color: '#3b82f6' },
+                    { name: 'Android Dev', desc: 'Native Apps', icon: 'Smartphone', color: '#22c55e' },
+                    { name: 'SQL Databases', level: 80, logo: sqlLogo, color: '#a855f7' },
+                    { name: 'Kotlin & Jetpack', desc: 'Modern Android', icon: 'Layers', color: '#8b5cf6' },
+                    { name: 'Firebase', level: 80, icon: 'Flame', color: '#f97316' },
+                    { name: 'Data Pipelines', desc: 'ETL Pipelines', icon: 'GitMerge', color: '#14b8a6' },
+                    { name: 'CI / CD', level: 75, icon: 'Rocket', color: '#6366f1' },
+                    { name: 'Predictive Modeling', desc: 'Analysis & Stats', icon: 'TrendingUp', color: '#ec4899' },
+                  ].map((s, idx) => (
+                    <div
+                      key={`${s.name}-row3-${idx}`}
+                      className="flex items-center gap-4 px-6 py-4 rounded-2xl border border-white/5 bg-black min-w-[260px] transition-all duration-300 hover:border-white/16 hover:bg-[#0f0f0f] group cursor-default relative overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-transparent group-hover:from-white/[0.02] pointer-events-none" />
+                      <div className="absolute top-0 left-0 w-full h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${s.color}aa, transparent)` }} />
+                      <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/10 group-hover:border-white/20 transition-all duration-300">
+                        {s.logo ? (
+                          <img src={s.logo} alt={s.name} className="w-6 h-6 object-contain transition-all duration-300 group-hover:scale-110 drop-shadow-md" />
+                        ) : (
+                          <IconWrapper name={s.icon} size={20} style={{ color: s.color }} className="transition-all duration-300 drop-shadow-md" />
+                        )}
+                      </div>
+                      <div className="flex flex-col text-left">
+                        <span className="text-white font-bold text-sm tracking-wide">{s.name}</span>
+                        <span className="text-[10px] text-white/35 font-semibold group-hover:text-white/60 transition-colors mt-0.5">{s.desc ? s.desc : `${s.level}% Proficiency`}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
+
+
+
+
+
+
 
         {/* Projects Section */}
         <section id='projects' className='py-32'>
           <div className='flex justify-between items-end mb-20'>
             <div>
-              <h3 className='text-blue-500 font-medium mb-4 flex items-center gap-2'>
-                <div className='h-px w-8 bg-blue-500' /> Portfolio
-              </h3>
-              <h2 className='text-4xl font-bold'>Featured <span className='text-gradient'>Projects</span></h2>
+              <h2 className='text-4xl md:text-5xl font-black tracking-tight'><span className='text-gradient'>Projects</span></h2>
             </div>
           </div>
 
@@ -1188,14 +1353,14 @@ const App = () => {
             <div className='movie_card div1' id='bright'>
               <div className='info_section'>
                 <div className='movie_header'>
-                  <img className='locandina' src='https://movieplayer.net-cdn.it/t/images/2017/12/20/bright_jpg_191x283_crop_q85.jpg' alt='project' />
-                  <h1>Premium E-commerce</h1>
+                  <img className='locandina bg-white' src={smartGuardianLogo} alt='project' />
+                  <h1>SmartGuardian_IM26</h1>
                   <h4>2024, Raju Perumalla</h4>
-                  <span className='minutes'>—</span>
-                  <p className='type'>Next.js, Tailwind, Stripe</p>
+                  <span className='minutes'>â€”</span>
+                  <p className='type'>AI/ML, IoT, GPS Tracking</p>
                 </div>
                 <div className='movie_desc'>
-                  <p className='text'>Full featured digital store with Stripe integration and motion UI.</p>
+                  <p className='text'>Accident Prevention | Risk Prediction | Driver Monitoring | Speed Control | Danger Alerts | Crash Detection | Severity Analysis | GPS Tracking | Emergency Alerts | Golden Rescue</p>
                 </div>
                 <div className='movie_social'>
                   <ul className='flex gap-3 items-center'>
@@ -1211,46 +1376,37 @@ const App = () => {
                   </ul>
                 </div>
               </div>
-              <div className='blur_back bright_back'></div>
-            </div>
-
-            <div className='movie_card div2' id='tomb'>
-              <div className='info_section'>
-                <div className='movie_header'>
-                  <img className='locandina' src='https://mr.comingsoon.it/imgdb/locandine/235x336/53750.jpg' alt='project' />
-                  <h1>Social Connect App</h1>
-                  <h4>2023, Raju Perumalla</h4>
-                  <span className='minutes'>—</span>
-                  <p className='type'>Kotlin, Firebase, Jetpack Compose</p>
-                </div>
-                <div className='movie_desc'>
-                  <p className='text'>Native Android application for social networking with real-time chat.</p>
-                </div>
-                <div className='movie_social'>
-                  <ul className='flex gap-3 items-center'>
-                    <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
-                      <img src={javaLogo} className='w-full h-full object-contain' alt='Java/Kotlin' />
-                    </li>
-                    <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
-                      <img src={socialLogo} className='w-full h-full object-contain' alt='Firebase/Social' />
-                    </li>
-                  </ul>
-                </div>
+              <div className='blur_back overflow-hidden relative'>
+                <video 
+                  src={smartGuardianVideo} 
+                  autoPlay 
+                  muted 
+                  playsInline
+                  onEnded={(e) => {
+                    const video = e.target;
+                    video.style.opacity = '0';
+                    setTimeout(() => {
+                      video.currentTime = 0;
+                      video.play();
+                      video.style.opacity = '1';
+                    }, 500);
+                  }}
+                  className='absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-100'
+                />
               </div>
-              <div className='blur_back tomb_back'></div>
             </div>
 
-            <div className='movie_card div3' id='ave'>
+            <div className='movie_card div2' id='ave'>
               <div className='info_section'>
                 <div className='movie_header'>
-                  <img className='locandina' src='https://mr.comingsoon.it/imgdb/locandine/235x336/53715.jpg' alt='project' />
-                  <h1>AI Image Generator</h1>
+                  <img className='locandina bg-[#1c1c1c] p-2 object-contain' src={cipherdocLogo} alt='project' />
+                  <h1>CipherDoc-SecureExamPapers</h1>
                   <h4>2024, Raju Perumalla</h4>
-                  <span className='minutes'>—</span>
-                  <p className='type'>React, OpenAI, Cloudinary</p>
+                  <span className='minutes'>â€”</span>
+                  <p className='type'>Encryption, RSA, Access Control</p>
                 </div>
                 <div className='movie_desc'>
-                  <p className='text'>SaaS platform that generates high-quality images using DALL-E API.</p>
+                  <p className='text'>Secure Exam Papers with Encryption | Role-Based Access | RSA Key Pair Authentication</p>
                 </div>
                 <div className='movie_social'>
                   <ul className='flex gap-3 items-center'>
@@ -1266,20 +1422,87 @@ const App = () => {
                   </ul>
                 </div>
               </div>
-              <div className='blur_back ave_back'></div>
+              <div className='blur_back overflow-hidden relative'>
+                <video 
+                  src={cipherdocVideo} 
+                  autoPlay 
+                  muted 
+                  playsInline
+                  onEnded={(e) => {
+                    const video = e.target;
+                    video.style.opacity = '0';
+                    setTimeout(() => {
+                      video.currentTime = 0;
+                      video.play();
+                      video.style.opacity = '1';
+                    }, 500);
+                  }}
+                  className='absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-100'
+                />
+              </div>
             </div>
 
-            <div className='movie_card div4' id='nova'>
+            
+
+            <div className='movie_card div3' id='tomb'>
               <div className='info_section'>
                 <div className='movie_header'>
-                  <img className='locandina' src='https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcd' alt='project' />
-                  <h1>Design System</h1>
-                  <h4>2025, Raju Perumalla</h4>
-                  <span className='minutes'>—</span>
-                  <p className='type'>React, Storybook, Tokens</p>
+                  <img className='locandina bg-[#1c1c1c] p-2 object-contain' src={tripzyLogo} alt='project' />
+                  <h1>Tripzy_Travel_Companion</h1>
+                  <h4>2024, Raju Perumalla</h4>
+                  <span className='minutes'>â€”</span>
+                  <p className='type'>HTML, CSS, JS, Firebase</p>
                 </div>
                 <div className='movie_desc'>
-                  <p className='text'>Shared component library and design tokens for scalable UI.</p>
+                  <p className='text'>Tripzy is a responsive travel booking website using HTML, CSS, JavaScript, and Firebase that enables OTP login, destination search, hotel deals, and seamless booking with a mobile-friendly UI.</p>
+                </div>
+                <div className='movie_social'>
+                  <ul className='flex gap-3 items-center'>
+                    <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
+                      <img src={htmlLogo} className='w-full h-full object-contain' alt='HTML' />
+                    </li>
+                    <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
+                      <img src={cssLogo} className='w-full h-full object-contain' alt='CSS' />
+                    </li>
+                    <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
+                      <img src={jsLogo} className='w-full h-full object-contain' alt='JS' />
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className='blur_back overflow-hidden relative'>
+                <video 
+                  src={tripzyVideo} 
+                  autoPlay 
+                  muted 
+                  playsInline
+                  onEnded={(e) => {
+                    const video = e.target;
+                    video.style.opacity = '0';
+                    setTimeout(() => {
+                      video.currentTime = 0;
+                      video.play();
+                      video.style.opacity = '1';
+                    }, 500);
+                  }}
+                  className='absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-100'
+                />
+              </div>
+            </div>
+
+            
+
+<div className='movie_card div4' id='nova'>
+              <div className='info_section'>
+                <div className='movie_header'>
+                  <img className='locandina bg-[#1c1c1c] p-2 object-contain' src={nutrixaLogo} alt='project' />
+                  <h1>Nutrixa-DietEngine</h1>
+                  <h4>2025, Raju Perumalla</h4>
+                  <span className='minutes'>â€”</span>
+                  <p className='type'>Health Tech, Smart Engine</p>
+                </div>
+                <div className='movie_desc'>
+                  <p className='text'>Nutrixa is a smart health companion that helps you make better lifestyle choices and stay consistent every day.</p>
                 </div>
                 <div className='movie_social'>
                   <ul className='flex gap-3 items-center'>
@@ -1295,7 +1518,24 @@ const App = () => {
                   </ul>
                 </div>
               </div>
-              <div className='blur_back nova_back'></div>
+              <div className='blur_back overflow-hidden relative'>
+                <video 
+                  src={nutrixaVideo} 
+                  autoPlay 
+                  muted 
+                  playsInline
+                  onEnded={(e) => {
+                    const video = e.target;
+                    video.style.opacity = '0';
+                    setTimeout(() => {
+                      video.currentTime = 0;
+                      video.play();
+                      video.style.opacity = '1';
+                    }, 500);
+                  }}
+                  className='absolute inset-0 w-full h-full object-cover transition-opacity duration-500 opacity-100'
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -1400,7 +1640,7 @@ const App = () => {
                     {!hasHoveredSocial && (
                       <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-xs text-white/40 flex items-center gap-1 whitespace-nowrap">
                         <span className="animate-pulse">Dive Deep here</span>
-                        <span className="inline-block animate-bounce">↓</span>
+                        <span className="inline-block animate-bounce">â†“</span>
                       </div>
                     )}
                   </div>
@@ -1432,7 +1672,7 @@ const App = () => {
                             </div>
                             <div>
                               <h3 className="font-bold text-white text-base">@impressive_dev_34</h3>
-                              <p className="text-sm text-white/60">D Σ ∇ Я ∆Ｊ [ راجو ]</p>
+                              <p className="text-sm text-white/60">D Î£ âˆ‡ Ð¯ âˆ†ï¼ª [ Ø±Ø§Ø¬Ùˆ ]</p>
                             </div>
                           </div>
                           <div className="mt-4 flex justify-between text-sm text-white/80">
@@ -1526,11 +1766,14 @@ const App = () => {
                     </p>
                   </div>
 
-                  <div className="space-y-5">
+                  <form className="space-y-5" onSubmit={handleContactSubmit}>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-white/40">Name</label>
                         <input
+                          required
+                          value={contactData.name}
+                          onChange={(e) => setContactData({ ...contactData, name: e.target.value })}
                           className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.07] transition-all duration-200"
                           placeholder="Your name"
                         />
@@ -1538,7 +1781,10 @@ const App = () => {
                       <div className="space-y-2">
                         <label className="text-xs uppercase tracking-widest text-white/40">Email</label>
                         <input
+                          required
                           type="email"
+                          value={contactData.email}
+                          onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
                           className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.07] transition-all duration-200"
                           placeholder="you@email.com"
                         />
@@ -1548,17 +1794,35 @@ const App = () => {
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-widest text-white/40">Message</label>
                       <textarea
+                        required
+                        value={contactData.message}
+                        onChange={(e) => setContactData({ ...contactData, message: e.target.value })}
                         rows={5}
                         className="w-full bg-white/[0.04] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.07] transition-all duration-200 resize-none"
                         placeholder="Tell me about your project..."
                       />
                     </div>
 
-                    <button className="w-full py-4 bg-blue-500 hover:bg-blue-600 active:scale-[0.98] rounded-lg text-sm font-bold text-white flex items-center justify-center gap-2 transition-all duration-200 group mt-2">
-                      Send Message
-                      <IconWrapper name="Send" size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+                    {submitStatus === 'success' && (
+                      <div className="text-emerald-400 text-sm font-semibold p-2 bg-emerald-500/10 rounded border border-emerald-500/20 text-center">
+                        Message sent successfully!
+                      </div>
+                    )}
+                    {submitStatus === 'error' && (
+                      <div className="text-red-400 text-sm font-semibold p-2 bg-red-500/10 rounded border border-red-500/20 text-center">
+                        Failed to send message. Is the backend running?
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full py-4 bg-blue-500 hover:bg-blue-600 active:scale-[0.98] rounded-lg text-sm font-bold text-white flex items-center justify-center gap-2 transition-all duration-200 group mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                      {!isSubmitting && <IconWrapper name="Send" size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />}
                     </button>
-                  </div>
+                  </form>
                 </BentoCard>
               </div>
             </div>
@@ -1569,7 +1833,7 @@ const App = () => {
       </main>
 
       <footer className='py-10 border-t border-white/5 text-center text-white/40 text-sm'>
-        <p>© 2026 Raju Perumalla. All rights reserved.</p>
+        <p>Â© 2026 Raju Perumalla. All rights reserved.</p>
       </footer>
 
       {/* SVG Filters for Liquid Glass Effect */}

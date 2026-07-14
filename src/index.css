@@ -261,7 +261,7 @@ body {
   background-repeat: no-repeat;
 }
 
-.bg-blue-gradient {
+.bg-black-gradient {
   position: fixed;
   inset: 0;
   z-index: -20;
@@ -270,8 +270,8 @@ body {
   transition: opacity 0.9s;
   transition-timing-function: var(--scroll-transition-ease, ease);
   background: radial-gradient(circle 100vw at 100% 0%,
-    rgba(0, 140, 255, 0.98) 0%,
-    rgba(0, 140, 255, 0.98) 62%,
+    rgba(0, 0, 0, 0.98) 0%,
+    rgba(0, 0, 0, 0.98) 62%,
     rgba(0, 0, 0, 0) 62%);
   background-repeat: no-repeat;
 }
@@ -291,7 +291,7 @@ body {
   background-repeat: no-repeat;
 }
 
-.bg-yellow-gradient {
+.bg-white-gradient {
   position: fixed;
   inset: 0;
   z-index: -20;
@@ -300,8 +300,8 @@ body {
   transition: opacity 0.9s;
   transition-timing-function: var(--scroll-transition-ease, ease);
   background: radial-gradient(circle 100vw at 100% 0%,
-    rgba(255, 221, 0, 0.98) 0%,
-    rgba(255, 221, 0, 0.98) 62%,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.98) 62%,
     rgba(0, 0, 0, 0) 62%);
   background-repeat: no-repeat;
 }
@@ -611,48 +611,61 @@ body {
 }
 .movie_card .movie_header{
   position: relative;
-  padding: 25px;
-  height: 40%;
+  padding: 15px 20px;
+  height: 45%;
 }
 .movie_card .movie_header h1{
   color: #fff;
-  font-weight: 400;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 2px;
 }
 .movie_card .movie_header h4{
   color: #9ac7fa;
   font-weight: 400;
+  font-size: 13px;
+  margin-bottom: 2px;
 }
 .movie_card .movie_header .minutes{
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 5px;
   color: #fff;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 3px 6px;
+  border-radius: 4px;
   border: 1px solid rgba(255,255,255,0.13);
+  font-size: 11px;
 }
 .movie_card .movie_header .type{
   display: inline-block;
   color: #cee4fd;
-  margin-left: 10px;
+  margin-left: 8px;
+  font-size: 12px;
 }
 .movie_card .movie_header .locandina{
   position: relative;
   float: left;
-  margin-right: 20px;
-  height: 120px;
+  margin-right: 15px;
+  height: 80px;
   box-shadow: 0 0 20px -10px rgba(0,0,0,0.5);
+  border-radius: 6px;
 }
 .movie_card .movie_desc{
-  padding: 25px;
-  height: 50%;
+  padding: 10px 20px;
+  height: 40%;
 }
 .movie_card .movie_desc .text{
   color: #cfd6e1;
+  font-size: 14px;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 .movie_card .movie_social{
-  height: 10%;
-  padding-left: 15px;
-  padding-bottom: 20px;
+  height: 15%;
+  padding-left: 20px;
+  padding-bottom: 15px;
 }
 .movie_card .movie_social ul{
   list-style: none;
@@ -749,13 +762,13 @@ body {
     grid-template-columns: 1fr; 
   }
   .parent .movie_card {
-    height: 380px !important;
+    height: 270px !important;
   }
 }
 
 /* Ensure movie cards fill the grid cells when inside .parent */
 .parent .movie_card{
-  height: 420px !important;
+  height: 300px !important;
   min-height: 0;
 }
 
@@ -763,7 +776,7 @@ body {
   .movie_card{
     width: 100%;
     margin: 0 auto; 
-    min-height: 350px;
+    min-height: 270px;
     height: auto;
   }
   
@@ -789,12 +802,6 @@ body {
 }
 
 
-#bright{
-  box-shadow: 0px 0px 150px -45px rgba(255, 51, 0, 0.5);
-}
-#bright:hover{
-  box-shadow: 0px 0px 120px -55px rgba(255, 51, 0, 0.5);
-}
 
 .bright_back{
   background: url("https://occ-0-2433-448.1.nflxso.net/art/cd5c9/3e192edf2027c536e25bb5d3b6ac93ced77cd5c9.jpg");
@@ -803,12 +810,6 @@ body {
   background-repeat: no-repeat !important;
 }
 
-#tomb{
-  box-shadow: 0px 0px 150px -45px rgba(19, 160, 134, 0.6);
-}
-#tomb:hover{
-  box-shadow: 0px 0px 120px -55px rgba(19, 160, 134, 0.6);
-}
 
 .tomb_back{
   background: url("https://fsmedia.imgix.net/cd/c9/5e/ba/4817/4d9a/93f0/c776ec32ecbc/lara-crofts-neck-looks-unnatural-in-the-new-poster-for-tomb-raider.png");
@@ -817,13 +818,6 @@ body {
   background-repeat: no-repeat !important;
 }
 
-#ave{
-  box-shadow: 0px 0px 150px -45px rgba(199,147,75, 0.7);
-  margin-bottom: 200px;
-}
-#ave:hover{
-  box-shadow: 0px 0px 120px -55px rgba(199,147,75, 0.7);
-}
 
 .ave_back{
   background: url("https://www.gannett-cdn.com/-mm-/c03fd140debe8ad4c05cf81a5cad7ad61a12ce52/c=0-1580-2985-3266&r=x803&c=1600x800/local/-/media/2017/06/09/USATODAY/USATODAY/636326272873599176-Black-Panther-Teaser.jpg");
@@ -1126,6 +1120,47 @@ body {
   transform: translate(115px, -90px);
   letter-spacing: 0px;
   color: white;
+}
+
+/* ========== INFINITE MARQUEE ROW ANIMATIONS ========== */
+@keyframes marquee-ltr {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-marquee-ltr {
+  display: flex;
+  width: max-content;
+  animation: marquee-ltr 40s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-ltr-slow {
+  display: flex;
+  width: max-content;
+  animation: marquee-ltr 55s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-ltr-fast {
+  display: flex;
+  width: max-content;
+  animation: marquee-ltr 30s linear infinite;
+  will-change: transform;
+}
+
+.marquee-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }
 
 
