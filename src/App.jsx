@@ -552,34 +552,37 @@ const App = () => {
         animate={!loading ? "visible" : "hidden"}
         variants={cinematicContainer}
         transition={{ delay: 0.2 }}
-        className='fixed top-8 left-1/2 -translate-x-1/2 z-50 w-[98%] max-w-[1440px]'
+        className='fixed top-4 md:top-8 left-0 right-0 z-50 w-full pointer-events-none'
       >
-        <div className="glass-container">
-          <div className="glass-filter"></div>
-          <div className="glass-overlay"></div>
-          <div className="glass-specular"></div>
-          <div className="glass-content flex justify-between items-center w-full px-8 py-5">
-            <motion.div variants={cinematicItem} className='main-logo-font text-gradient cursor-pointer'>
-              Raju Perumalla
-            </motion.div>
-
-            <div className="flex items-center gap-6">
-              <motion.div variants={cinematicItem} className='hidden md:block'>
-                <ul className="navbar-links">
-                  <li><a href="#about">ABOUT</a></li>
-                  <li><a href="#skills">SKILLS</a></li>
-                  <li><a href="#projects">PROJECTS</a></li>
-                  <li><a href="#contact">CONTACT</a></li>
-                </ul>
+        <div className='w-full max-w-[450px] md:max-w-[1500px] mx-auto px-4 md:px-6 pointer-events-auto'>
+          <div className="glass-container w-full">
+            <div className="glass-filter"></div>
+            <div className="glass-overlay"></div>
+            <div className="glass-specular"></div>
+            <div className="glass-content flex justify-between items-center w-full px-3 py-1.5 md:px-8 md:py-5">
+              <motion.div variants={cinematicItem} className='main-logo-font text-gradient cursor-pointer select-none'>
+                <span className="hidden md:inline">Raju Perumalla</span>
+                <span className="inline md:hidden">RP</span>
               </motion.div>
 
-              <motion.button
-                variants={cinematicItem}
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className='md:hidden text-white hover:text-red-500 transition-colors focus:outline-none z-50 relative'
-              >
-                {mobileMenuOpen ? <Lucide.X size={26} /> : <Lucide.Menu size={26} />}
-              </motion.button>
+              <div className="flex items-center gap-6">
+                <motion.div variants={cinematicItem} className='hidden md:block'>
+                  <ul className="navbar-links">
+                    <li><a href="#about">ABOUT</a></li>
+                    <li><a href="#skills">SKILLS</a></li>
+                    <li><a href="#projects">PROJECTS</a></li>
+                    <li><a href="#contact">CONTACT</a></li>
+                  </ul>
+                </motion.div>
+
+                <motion.button
+                  variants={cinematicItem}
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className='md:hidden text-white hover:text-red-500 transition-colors focus:outline-none z-50 relative'
+                >
+                  {mobileMenuOpen ? <Lucide.X size={26} /> : <Lucide.Menu size={26} />}
+                </motion.button>
+              </div>
             </div>
           </div>
         </div>
