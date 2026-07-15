@@ -351,6 +351,7 @@ const App = () => {
   const [animDirection, setAnimDirection] = useState(1);
   const [activeSkillTab, setActiveSkillTab] = useState(0);
   const [skillAnimDir, setSkillAnimDir] = useState(1);
+  const [showMobileStats, setShowMobileStats] = useState(false);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText('23ra1a05b0@kpritech.ac.in');
@@ -392,6 +393,14 @@ const App = () => {
 
     return () => clearInterval(timer);
   }, [rotatingRoles.length]);
+
+  // Toggle mobile stats vs watermark text every 2 seconds
+  useEffect(() => {
+    const cycle = setInterval(() => {
+      setShowMobileStats(prev => !prev);
+    }, 2000);
+    return () => clearInterval(cycle);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -834,7 +843,7 @@ const App = () => {
             </div>
           </div>
         </motion.section>
-        <section id='about' ref={aboutSectionRef} className='py-20 md:py-24 px-8 md:px-12 my-12 grid lg:grid-cols-[1.2fr_1fr] gap-16 lg:gap-24 items-start relative overflow-hidden'>
+        <section id='about' ref={aboutSectionRef} className='py-20 md:py-24 px-4 md:px-12 my-12 grid lg:grid-cols-[1.2fr_1fr] gap-16 lg:gap-24 items-start relative overflow-hidden'>
           {/* Blurred background with left-right feathering, no border */}
           <div className="absolute inset-0 bg-black/40 backdrop-blur-md -z-10" style={{
             maskImage: 'linear-gradient(to right, transparent, black 18%, black 82%, transparent)',
@@ -869,7 +878,7 @@ const App = () => {
                     </h2>
 
                     {currentTab.tagline && (
-                      <p className='text-xs md:text-sm font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3.5 py-2 rounded-xl mb-6 leading-relaxed tracking-normal max-w-xl'>
+                      <p className='hidden md:block text-xs md:text-sm font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3.5 py-2 rounded-xl mb-6 leading-relaxed tracking-normal max-w-xl'>
                         {currentTab.tagline}
                       </p>
                     )}
@@ -896,7 +905,7 @@ const App = () => {
                               />
                             )}
                             <IconWrapper name={tab.icon} size={15} />
-                            {tab.label}
+                            <span className='hidden md:inline'>{tab.label}</span>
                           </button>
                         );
                       })}
@@ -923,13 +932,13 @@ const App = () => {
               })()}
             </div>
 
-            <div className='flex flex-wrap gap-4 justify-start pt-6 border-t border-white/5 mt-auto'>
-              <button className='button flex items-center gap-2'>
-                View Projects <IconWrapper name='ArrowUpRight' size={16} />
-              </button>
-              <button className='button flex items-center gap-2'>
-                Get in Touch <IconWrapper name='Send' size={15} />
-              </button>
+            <div className='flex flex-row gap-2 md:gap-4 justify-start pt-6 border-t border-white/5 mt-auto w-full'>
+              <a href='#projects' className='button flex items-center gap-1 md:gap-2 px-3 md:px-5 py-2 md:py-3 text-[10px] md:text-xs tracking-wider shrink-0'>
+                View Projects <IconWrapper name='ArrowUpRight' size={14} />
+              </a>
+              <a href='#contact' className='button flex items-center gap-1 md:gap-2 px-3 md:px-5 py-2 md:py-3 text-[10px] md:text-xs tracking-wider shrink-0'>
+                Get in Touch <IconWrapper name='Send' size={13} />
+              </a>
             </div>
           </motion.div>          {/* Right Column: Carousel with slide animation */}
           <div
@@ -963,18 +972,63 @@ const App = () => {
                     className="w-full h-[400px] md:h-[440px] relative overflow-hidden !rounded-none"
                   >
                     <div className="absolute inset-0 bg-grid-card opacity-[0.03] pointer-events-none" />
+                    {/* Mobile-only: alternating watermark text ↔ stats every 2s */}
+                    <div className="md:hidden">
+                      <AnimatePresence mode="wait">
+                        {!showMobileStats ? (
+                          <motion.div
+                            key="watermark"
+                            initial={{ opacity: 0, x: 30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -60 }}
+                            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                            className="absolute top-5 left-5 flex flex-col pointer-events-none select-none"
+                          >
+                            <span className="text-white/20 font-black text-xl tracking-widest uppercase whitespace-nowrap">Raju Perumalla</span>
+                            <span className="text-blue-500/35 font-bold text-[9px] tracking-wider uppercase mt-1 whitespace-nowrap">Full-Stack • Android • ML</span>
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="stats"
+                            initial={{ opacity: 0, x: 60 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -60 }}
+                            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                            className="absolute top-5 left-5 flex gap-2"
+                          >
+                            {[
+                              { value: '3+', label: 'Years', color: 'text-blue-400', glow: 'rgba(59,130,246,0.35)' },
+                              { value: '15+', label: 'Projects', color: 'text-purple-400', glow: 'rgba(139,92,246,0.35)' },
+                              { value: '2.5K+', label: 'Subs', color: 'text-red-400', glow: 'rgba(239,68,68,0.35)' },
+                            ].map((stat, i) => (
+                              <motion.div
+                                key={stat.label}
+                                initial={{ opacity: 0, y: -10, scale: 0.85 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                transition={{ duration: 0.35, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                                className="flex flex-col items-center px-2.5 py-1.5 rounded-xl bg-white/[0.04] border border-white/10 backdrop-blur-sm"
+                                style={{ boxShadow: `0 0 12px ${stat.glow}` }}
+                              >
+                                <span className={`text-xs font-black ${stat.color}`}>{stat.value}</span>
+                                <span className="text-[7px] text-white/40 uppercase tracking-widest mt-0.5">{stat.label}</span>
+                              </motion.div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
                     {/* Profile layout: photo right full-height, info left */}
                     <div className="flex h-full gap-5">
                       {/* Left: info */}
                       <div className="flex flex-col justify-between flex-1 min-w-0">
                         <div>
-                          <span className="text-[9px] font-bold text-blue-400 tracking-widest uppercase bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-full">Full-Stack • Android • ML</span>
-                          <h4 className="font-bold text-white text-base md:text-lg mt-4 leading-tight">Raju Perumalla</h4>
-                          <p className="text-[11px] text-white/50 mt-2.5 leading-relaxed">
+                          <span className="hidden md:inline-block text-[9px] font-bold text-blue-400 tracking-widest uppercase bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-full">Full-Stack • Android • ML</span>
+                          <h4 className="hidden md:block font-bold text-white text-base md:text-lg mt-4 leading-tight">Raju Perumalla</h4>
+                          <p className="hidden md:block text-[11px] text-white/50 mt-2.5 leading-relaxed">
                             Creating modern digital experiences through robust API engineering, intelligent machine learning workflows, and responsive web & mobile client architectures.
                           </p>
                         </div>
-                        <div className="grid grid-cols-3 gap-2 mt-3">
+                        <div className="hidden md:grid grid-cols-3 gap-2 mt-3">
                           <div className="p-2.5 rounded-lg bg-white/[0.02] border border-white/5 text-center hover:bg-white/[0.04] transition-all duration-300">
                             <span className="text-xs md:text-sm font-black text-blue-400">3+</span>
                             <p className="text-[8px] text-white/40 uppercase tracking-widest mt-0.5">Years</p>
@@ -1358,8 +1412,8 @@ const App = () => {
 
 
         {/* Projects Section */}
-        <section id='projects' ref={projectsSectionRef} className='py-32'>
-          <div className='flex justify-center items-center mb-20 text-center w-full'>
+        <section id='projects' ref={projectsSectionRef} className='pt-12 pb-32'>
+          <div className='flex justify-end md:justify-center items-center mt-8 mb-5 text-right md:text-center w-full px-4 md:px-0'>
             <div>
               <h2 className='text-4xl md:text-5xl font-black tracking-tight text-black'>Projects</h2>
             </div>
@@ -1484,12 +1538,18 @@ const App = () => {
 
             <div className='movie_card div3' id='tomb'>
               <div className='info_section'>
-                <div className='movie_header'>
-                  <img className='locandina bg-[#1c1c1c] p-2 object-contain' src={tripzyLogo} alt='project' />
-                  <h1>Tripzy_Travel_Companion</h1>
-                  <h4>2024, Raju Perumalla</h4>
-                  <span className='minutes'>•</span>
-                  <p className='type'>HTML, CSS, JS, Firebase</p>
+                <div className='movie_header relative flex items-center gap-5'>
+                  <div className="relative shrink-0">
+                    <img className='locandina bg-[#1c1c1c] p-2 object-contain !m-0 !float-none' style={{ margin: 0, float: 'none' }} src={tripzyLogo} alt='project' />
+                  </div>
+                  <div className="flex flex-col justify-center text-left">
+                    <h1>Tripzy_Travel_Companion</h1>
+                    <h4>2024, Raju Perumalla</h4>
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className='minutes'>•</span>
+                      <p className='type m-0'>HTML, CSS, JS, Firebase</p>
+                    </div>
+                  </div>
                 </div>
                 <div className='movie_desc'>
                   <p className='text'>Tripzy is a responsive travel booking website using HTML, CSS, JavaScript, and Firebase that enables OTP login, destination search, hotel deals, and seamless booking with a mobile-friendly UI.</p>
@@ -1588,31 +1648,47 @@ const App = () => {
           </div>
 
           {/* Indian Names List */}
-          <div className='indian-list mt-12'>
+          <div className='indian-list mt-12 flex justify-center md:justify-start'>
             <ul>
               <li style={{ '--i': 1 }}>
-                <img src='https://i.postimg.cc/ZRCLqjNq/user-img1.jpg' alt='user image' />
+                <div style={{ width: 64, height: 64, borderRadius: 8, background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                  </svg>
+                </div>
                 <div className='content'>
                   <h3>Arjun Rao</h3>
                   <p>Bengaluru, KA</p>
                 </div>
               </li>
               <li style={{ '--i': 2 }}>
-                <img src='https://i.postimg.cc/C1XsnDCs/user-img2.jpg' alt='user image' />
+                <div style={{ width: 64, height: 64, borderRadius: 8, background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                  </svg>
+                </div>
                 <div className='content'>
                   <h3>Priya Sharma</h3>
                   <p>Mumbai, MH</p>
                 </div>
               </li>
               <li style={{ '--i': 3 }}>
-                <img src='https://i.postimg.cc/qqKXsRjV/user-img3.jpg' alt='user image' />
+                <div style={{ width: 64, height: 64, borderRadius: 8, background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                  </svg>
+                </div>
                 <div className='content'>
                   <h3>Rohan Kapoor</h3>
                   <p>New Delhi, DL</p>
                 </div>
               </li>
               <li style={{ '--i': 4 }}>
-                <img src='https://i.postimg.cc/QNKbG4s4/user-img4.jpg' alt='user image' />
+                <div style={{ width: 64, height: 64, borderRadius: 8, background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="8" r="4" /><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                  </svg>
+                </div>
                 <div className='content'>
                   <h3>Ananya Patel</h3>
                   <p>Ahmedabad, GJ</p>
@@ -1623,8 +1699,8 @@ const App = () => {
         </section>
 
         {/* Contact Section */}
-        <section id='contact' ref={contactSectionRef} className='py-32'>
-          <div className="flex flex-col items-start justify-center w-full max-w-[1440px] mx-auto px-4 gap-12 text-left">
+        <section id='contact' ref={contactSectionRef} className='py-20 md:py-32 min-h-[100dvh] md:min-h-0 flex flex-col'>
+          <div className="flex flex-col items-start justify-center w-full max-w-[1440px] mx-auto px-4 gap-12 text-left flex-1">
 
             {/* Main 2-Column Row for Contact Section */}
             <div className="flex flex-col lg:flex-row items-start justify-between w-full max-w-[1300px] gap-12 md:gap-8 mx-auto text-left">
@@ -1674,11 +1750,18 @@ const App = () => {
                       <div className="social-link empty"></div>
                     </div>
 
-                    {/* Hover Hint */}
+                    {/* Hover Hint — desktop only */}
                     {!hasHoveredSocial && (
-                      <div className="absolute -top-8 left-1/2 -translate-x-1/2 text-xs text-white/40 flex items-center gap-1 whitespace-nowrap">
+                      <div className="hidden md:flex absolute -top-8 left-1/2 -translate-x-1/2 text-xs text-white/40 items-center gap-1 whitespace-nowrap">
                         <span className="animate-pulse">Dive Deep here</span>
-                        <span className="inline-block animate-bounce">â†“</span>
+                        <span className="inline-block animate-bounce">↓</span>
+                      </div>
+                    )}
+                    {/* Tap hint — mobile only */}
+                    {!hasHoveredSocial && (
+                      <div className="md:hidden absolute -top-7 left-1/2 -translate-x-1/2 flex items-center gap-1 whitespace-nowrap">
+                        <span className="text-xs text-white font-semibold animate-pulse">Click here</span>
+                        <span className="text-white text-xs inline-block animate-bounce">↓</span>
                       </div>
                     )}
                   </div>
@@ -1870,8 +1953,40 @@ const App = () => {
         </section>
       </main>
 
-      <footer className='py-10 border-t border-white/5 text-center text-white/40 text-sm'>
-        <p>Â© 2026 Raju Perumalla. All rights reserved.</p>
+      <footer className='border-t border-white/5 bg-[#030303]'>
+        <div className='max-w-[1300px] mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0'>
+
+          {/* Left: Brand */}
+          <div className='flex flex-col items-center md:items-start gap-1'>
+            <span className='text-white font-black tracking-widest text-base uppercase'>Raju Perumalla</span>
+            <span className='text-white/30 text-xs tracking-wider'>Full-Stack · Android · ML Engineer</span>
+          </div>
+
+          {/* Center: Copyright */}
+          <div className='flex flex-col items-center gap-1'>
+            <p className='text-white/40 text-xs text-center'>
+              © {new Date().getFullYear()} Raju Perumalla. All rights reserved.
+            </p>
+            <p className='text-white/20 text-[10px] text-center'>Built with React · TailwindCSS · Node.js &nbsp;·&nbsp; Designed &amp; Developed by Raju Perumalla</p>
+          </div>
+
+          {/* Right: Links */}
+          <div className='flex items-center gap-5'>
+            <a href='https://github.com/rajuperumalla9515' target='_blank' rel='noopener noreferrer'
+              className='text-white/30 hover:text-white text-xs tracking-wide transition-colors duration-200'>GitHub</a>
+            <span className='text-white/10'>|</span>
+            <a href='https://www.instagram.com/impressive_dev_34' target='_blank' rel='noopener noreferrer'
+              className='text-white/30 hover:text-white text-xs tracking-wide transition-colors duration-200'>Instagram</a>
+            <span className='text-white/10'>|</span>
+            <a href='#contact'
+              className='text-white/30 hover:text-white text-xs tracking-wide transition-colors duration-200'>Contact</a>
+          </div>
+
+        </div>
+        {/* Bottom micro strip */}
+        <div className='border-t border-white/[0.03] py-3 text-center'>
+          <p className='text-white/15 text-[10px] tracking-widest uppercase'>Made with ♥ in India</p>
+        </div>
       </footer>
 
       {/* SVG Filters for Liquid Glass Effect */}

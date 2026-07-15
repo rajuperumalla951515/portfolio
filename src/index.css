@@ -29,6 +29,26 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+#about,
+#skills,
+#projects,
+#contact {
+  scroll-margin-top: 120px;
+}
+
+@media (min-width: 768px) {
+  #about,
+  #skills,
+  #projects,
+  #contact {
+    scroll-margin-top: 150px;
+  }
+}
+
 html,
 body {
   max-width: 100%;
@@ -474,7 +494,13 @@ body {
 /* Scoped Indian list styles (adapted from user snippet) */
 .indian-list {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .indian-list {
+    justify-content: flex-start;
+  }
 }
 
 .indian-list ul {
