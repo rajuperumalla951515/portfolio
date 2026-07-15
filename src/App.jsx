@@ -1789,7 +1789,7 @@ const App = () => {
               <div className="hidden lg:block w-[1px] h-[450px] bg-gradient-to-b from-transparent via-white/10 to-transparent self-center translate-x-[100px]"></div>
 
               {/* Right Side: Let's Connect Form */}
-              <div className="w-full lg:w-1/2 flex justify-end translate-x-[60px]">
+              <div className="w-full lg:w-1/2 flex justify-end lg:translate-x-[60px]">
                 {/* Let's Connect Bento Card */}
                 <BentoCard spotlightClass="spotlight-blue" className="w-full max-w-[500px] h-[450px] !p-8 flex flex-col justify-between ml-auto">
                   <div>
