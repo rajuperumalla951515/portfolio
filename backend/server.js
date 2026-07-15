@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const Contact = require('./models/Contact');
+const dns = require('dns');
+
+// Force IPv4 first to fix ENETUNREACH IPv6 errors on Render
+dns.setDefaultResultOrder('ipv4first');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
