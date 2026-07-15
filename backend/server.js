@@ -37,6 +37,10 @@ app.post('/api/contact', async (req, res) => {
     const newContact = new Contact({ name, email, message });
     await newContact.save();
 
+    const now = new Date();
+    const timestamp = now.toLocaleString('en-IN', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Asia/Kolkata' });
+    const initials = name.trim().split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+
     // EmailJS API Integration
     const emailJsPayload = {
       service_id: process.env.EMAILJS_SERVICE_ID,
@@ -47,6 +51,8 @@ app.post('/api/contact', async (req, res) => {
         from_name: name,
         reply_to: email,
         message: message,
+        timestamp: timestamp,
+        initials: initials
       }
     };
 
