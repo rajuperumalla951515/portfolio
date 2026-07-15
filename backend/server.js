@@ -4,10 +4,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const Contact = require('./models/Contact');
-const dns = require('dns');
-
-// Force IPv4 first to fix ENETUNREACH IPv6 errors on Render
-dns.setDefaultResultOrder('ipv4first');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -44,17 +40,15 @@ app.post('/api/contact', async (req, res) => {
     // Set up Nodemailer transporter with robust Gmail settings
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
+      port: 587,
+      secure: false, // true for 465, false for other ports
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
       tls: {
         rejectUnauthorized: false
-      },
-      // Explicitly force IPv4 network stack
-      family: 4
+      }
     });
 
     const now = new Date();
