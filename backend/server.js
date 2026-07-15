@@ -52,7 +52,9 @@ app.post('/api/contact', async (req, res) => {
       },
       tls: {
         rejectUnauthorized: false
-      }
+      },
+      // Explicitly force IPv4 network stack
+      family: 4
     });
 
     const now = new Date();
