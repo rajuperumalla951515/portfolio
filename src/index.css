@@ -20,6 +20,13 @@
 
 :root {
   color-scheme: dark;
+  --bg-gradient-center: 100% 0%;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --bg-gradient-center: 100% 20%;
+  }
 }
 
 html,
@@ -276,7 +283,7 @@ body {
   opacity: 0;
   transition: opacity 0.9s;
   transition-timing-function: var(--scroll-transition-ease, ease);
-  background: radial-gradient(circle 100vw at 100% 0%,
+  background: radial-gradient(circle 100vw at var(--bg-gradient-center),
       rgb(255, 0, 0) 0%,
       rgba(255, 0, 0, 0.98) 62%,
       rgba(0, 0, 0, 0) 62%);
@@ -291,7 +298,7 @@ body {
   opacity: 0;
   transition: opacity 0.9s;
   transition-timing-function: var(--scroll-transition-ease, ease);
-  background: radial-gradient(circle 100vw at 100% 0%,
+  background: radial-gradient(circle 100vw at var(--bg-gradient-center),
       rgb(0, 0, 255) 0%,
       rgba(0, 0, 255, 0.98) 62%,
       rgba(0, 0, 0, 0) 62%);
@@ -306,7 +313,7 @@ body {
   opacity: 0;
   transition: opacity 0.9s;
   transition-timing-function: var(--scroll-transition-ease, ease);
-  background: radial-gradient(circle 100vw at 100% 0%,
+  background: radial-gradient(circle 100vw at var(--bg-gradient-center),
       rgb(0, 0, 0) 0%,
       rgba(0, 0, 0, 0.98) 62%,
       rgba(0, 0, 0, 0) 62%);
@@ -321,7 +328,7 @@ body {
   opacity: 0;
   transition: opacity 0.9s;
   transition-timing-function: var(--scroll-transition-ease, ease);
-  background: radial-gradient(circle 100vw at 100% 0%,
+  background: radial-gradient(circle 100vw at var(--bg-gradient-center),
       rgb(255, 255, 255) 0%,
       rgba(255, 255, 255, 0.98) 62%,
       rgba(0, 0, 0, 0) 62%);
@@ -336,7 +343,7 @@ body {
   opacity: 0;
   transition: opacity 0.9s;
   transition-timing-function: var(--scroll-transition-ease, ease);
-  background: radial-gradient(circle 100vw at 100% 0%,
+  background: radial-gradient(circle 100vw at var(--bg-gradient-center),
       rgb(255, 255, 0) 0%,
       rgba(255, 255, 0, 0.98) 62%,
       rgba(0, 0, 0, 0) 62%);
@@ -351,7 +358,7 @@ body {
   opacity: 0;
   transition: opacity 0.9s;
   transition-timing-function: var(--scroll-transition-ease, ease);
-  background: radial-gradient(circle 100vw at 100% 0%,
+  background: radial-gradient(circle 100vw at var(--bg-gradient-center),
       rgb(0, 100, 0) 0%,
       rgba(0, 100, 0, 0.98) 62%,
       rgba(0, 0, 0, 0) 62%);
@@ -366,7 +373,7 @@ body {
   opacity: 0;
   transition: opacity 0.9s;
   transition-timing-function: var(--scroll-transition-ease, ease);
-  background: radial-gradient(circle 100vw at 100% 0%,
+  background: radial-gradient(circle 100vw at var(--bg-gradient-center),
       rgb(255, 165, 0) 0%,
       rgba(255, 165, 0, 0.98) 62%,
       rgba(0, 0, 0, 0) 62%);
@@ -926,6 +933,24 @@ body {
   .blur_back {
     width: 100%;
     background-position: center center !important;
+    background: #000000 !important;
+    background-image: none !important;
+  }
+
+  .movie_card .blur_back video {
+    display: none !important;
+  }
+
+  .bright_back,
+  .ave_back,
+  .tomb_back,
+  .nova_back,
+  #bright .blur_back,
+  #ave .blur_back,
+  #tomb .blur_back,
+  #nova .blur_back {
+    background: #000000 !important;
+    background-image: none !important;
   }
 
   .movie_header {
