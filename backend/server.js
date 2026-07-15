@@ -56,21 +56,24 @@ app.post('/api/contact', async (req, res) => {
       }
     };
 
-    const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(emailJsPayload)
-    });
+    try {
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(emailJsPayload)
+      });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('EmailJS Error:', errorText);
-      throw new Error('Failed to send email via EmailJS');
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('EmailJS Error:', errorText);
+      } else {
+        console.log('Email sent via EmailJS successfully!');
+      }
+    } catch (emailError) {
+      console.error('Failed to contact EmailJS API:', emailError);
     }
-
-    console.log('Email sent via EmailJS successfully!');
 
     res.status(201).json({ success: true, message: 'Message sent successfully!' });
   } catch (error) {
