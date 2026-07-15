@@ -20,6 +20,9 @@ import dbLogo from './assets/database.png';
 import nodeLogo from './assets/node js.png';
 import pythonLogo from './assets/python.png';
 import sqlLogo from './assets/sql.png';
+import flutterLogo from './assets/flutter (2).png';
+import googleMapsLogo from './assets/google-maps.png';
+import streamlitLogo from './assets/streamlit.png';
 import linkedinLogo from './assets/linkedin.png';
 import youtubeLogo from './assets/youtube (1).png';
 import googleLogo from './assets/google-logo.png';
@@ -327,10 +330,14 @@ const App = () => {
   };
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollDirection, setScrollDirection] = useState('down');
-  const [isAboutInView, setIsAboutInView] = useState(false);
-  const [isSkillsInView, setIsSkillsInView] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
+  const heroSectionRef = useRef(null);
+  const techStackSectionRef = useRef(null);
   const aboutSectionRef = useRef(null);
   const skillsSectionRef = useRef(null);
+  const projectsSectionRef = useRef(null);
+  const communitySectionRef = useRef(null);
+  const contactSectionRef = useRef(null);
   const lastScrollYRef = useRef(0);
 
   const [showEmailTag, setShowEmailTag] = useState(false);
@@ -407,33 +414,33 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const aboutSection = aboutSectionRef.current;
-    if (!aboutSection) return;
+    const sections = [
+      { id: 'hero', ref: heroSectionRef },
+      { id: 'techStack', ref: techStackSectionRef },
+      { id: 'about', ref: aboutSectionRef },
+      { id: 'skills', ref: skillsSectionRef },
+      { id: 'projects', ref: projectsSectionRef },
+      { id: 'community', ref: communitySectionRef },
+      { id: 'contact', ref: contactSectionRef }
+    ];
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsAboutInView(entry.isIntersecting);
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.getAttribute('data-section-id'));
+          }
+        });
       },
-      { threshold: 0.35 }
+      { threshold: 0.25 }
     );
 
-    observer.observe(aboutSection);
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const skillsSection = skillsSectionRef.current;
-    if (!skillsSection) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsSkillsInView(entry.isIntersecting);
-      },
-      { threshold: 0.35 }
-    );
-
-    observer.observe(skillsSection);
+    sections.forEach(({ ref, id }) => {
+      if (ref.current) {
+        ref.current.setAttribute('data-section-id', id);
+        observer.observe(ref.current);
+      }
+    });
 
     return () => observer.disconnect();
   }, []);
@@ -446,10 +453,13 @@ const App = () => {
         '--scroll-transition-ease': scrollDirection === 'down' ? 'ease-in' : 'ease-out',
       }}
     >
-      <div className={`bg-red-gradient ${isScrolled ? 'bg-fade-out' : ''}`} />
-      <div className={`bg-black-gradient ${isAboutInView || isSkillsInView ? 'bg-fade-out' : isScrolled ? 'bg-fade-in' : ''}`} />
-      <div className={`bg-green-gradient ${isAboutInView ? 'bg-fade-in' : ''}`} />
-      <div className={`bg-white-gradient ${isSkillsInView ? 'bg-fade-in' : ''}`} />
+      <div className={`bg-red-gradient ${activeSection === 'hero' ? 'bg-fade-in' : ''}`} />
+      <div className={`bg-blue-gradient ${activeSection === 'techStack' ? 'bg-fade-in' : ''}`} />
+      <div className={`bg-black-gradient ${activeSection === 'about' ? 'bg-fade-in' : ''}`} />
+      <div className={`bg-white-gradient ${activeSection === 'skills' ? 'bg-fade-in' : ''}`} />
+      <div className={`bg-yellow-gradient ${activeSection === 'projects' ? 'bg-fade-in' : ''}`} />
+      <div className={`bg-darkgreen-gradient ${activeSection === 'community' ? 'bg-fade-in' : ''}`} />
+      <div className={`bg-orange-gradient ${activeSection === 'contact' ? 'bg-fade-in' : ''}`} />
       <div
         className={`fixed top-40 right-25 md:top-38 md:right-[36rem] z-[-9] pointer-events-none select-none whitespace-nowrap transition-all duration-150 ${isScrolled ? 'opacity-0 translate-y-4 blur-sm' : 'opacity-100 translate-y-0 blur-0'}`}
         style={{ transitionTimingFunction: 'var(--scroll-transition-ease)' }}
@@ -577,7 +587,7 @@ const App = () => {
 
       <main className='w-full max-w-[1500px] mx-auto px-4 md:px-6 relative'>
         {/* Hero Section */}
-        <section className='min-h-screen flex items-center justify-center pt-20 relative'>
+        <section ref={heroSectionRef} className='min-h-screen flex items-center justify-center pt-20 relative'>
           <motion.div
             className='w-full mx-auto flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-16'
             initial="hidden"
@@ -663,7 +673,7 @@ const App = () => {
                               </span>
                             </div>
 
-                            {/* Action buttons â€” icons only */}
+                            {/* Action buttons • icons only */}
                             <div className="flex gap-1.5">
                               <motion.button
                                 onClick={handleCopyEmail}
@@ -768,6 +778,7 @@ const App = () => {
 
         {/* Tech Stack Scrolling Marquee */}
         <motion.section
+          ref={techStackSectionRef}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
@@ -1342,22 +1353,38 @@ const App = () => {
 
 
         {/* Projects Section */}
-        <section id='projects' className='py-32'>
-          <div className='flex justify-between items-end mb-20'>
+        <section id='projects' ref={projectsSectionRef} className='py-32'>
+          <div className='flex justify-center items-center mb-20 text-center w-full'>
             <div>
-              <h2 className='text-4xl md:text-5xl font-black tracking-tight'><span className='text-gradient'>Projects</span></h2>
+              <h2 className='text-4xl md:text-5xl font-black tracking-tight text-black'>Projects</h2>
             </div>
           </div>
 
           <div className='parent movie_grid'>
             <div className='movie_card div1' id='bright'>
               <div className='info_section'>
-                <div className='movie_header'>
-                  <img className='locandina bg-white' src={smartGuardianLogo} alt='project' />
-                  <h1>SmartGuardian_IM26</h1>
-                  <h4>2024, Raju Perumalla</h4>
-                  <span className='minutes'>â€”</span>
-                  <p className='type'>AI/ML, IoT, GPS Tracking</p>
+                <div className='movie_header relative flex items-center gap-5'>
+                  <div className="relative shrink-0">
+                    <img className='locandina bg-white !m-0 !float-none' style={{ margin: 0, float: 'none' }} src={smartGuardianLogo} alt='project' />
+                    {/* SAP Finals Badge */}
+                    <div className="absolute -top-2 -left-2 z-10 flex items-center group cursor-pointer">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-yellow-500 to-amber-300 border border-black flex items-center justify-center shadow-[0_0_10px_rgba(234,179,8,0.5)] transform transition-transform group-hover:scale-110 group-hover:rotate-12 relative z-20">
+                        <IconWrapper name="Star" size={12} className="text-black fill-current" />
+                      </div>
+                      {/* Tooltip */}
+                      <div className="absolute left-6 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 ease-out bg-black/90 border border-yellow-500/30 text-yellow-500 text-[9px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap shadow-lg z-10 pointer-events-none">
+                        SAP-IM Finalist
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center text-left">
+                    <h1>SmartGuardian_IM26</h1>
+                    <h4>2024, Raju Perumalla</h4>
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className='minutes'>•</span>
+                      <p className='type m-0'>AI/ML, IoT, GPS Tracking</p>
+                    </div>
+                  </div>
                 </div>
                 <div className='movie_desc'>
                   <p className='text'>Accident Prevention | Risk Prediction | Driver Monitoring | Speed Control | Danger Alerts | Crash Detection | Severity Analysis | GPS Tracking | Emergency Alerts | Golden Rescue</p>
@@ -1365,22 +1392,22 @@ const App = () => {
                 <div className='movie_social'>
                   <ul className='flex gap-3 items-center'>
                     <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
-                      <img src={reactLogo} className='w-full h-full object-contain' alt='React/Next' />
+                      <img src={flutterLogo} className='w-full h-full object-contain' alt='Flutter' />
                     </li>
                     <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
-                      <img src={cssLogo} className='w-full h-full object-contain' alt='CSS/Tailwind' />
+                      <img src={pythonLogo} className='w-full h-full object-contain' alt='Python' />
                     </li>
                     <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
-                      <img src={jsLogo} className='w-full h-full object-contain' alt='JavaScript' />
+                      <img src={googleMapsLogo} className='w-full h-full object-contain' alt='Google Maps' />
                     </li>
                   </ul>
                 </div>
               </div>
               <div className='blur_back overflow-hidden relative'>
-                <video 
-                  src={smartGuardianVideo} 
-                  autoPlay 
-                  muted 
+                <video
+                  src={smartGuardianVideo}
+                  autoPlay
+                  muted
                   playsInline
                   onEnded={(e) => {
                     const video = e.target;
@@ -1402,7 +1429,7 @@ const App = () => {
                   <img className='locandina bg-[#1c1c1c] p-2 object-contain' src={cipherdocLogo} alt='project' />
                   <h1>CipherDoc-SecureExamPapers</h1>
                   <h4>2024, Raju Perumalla</h4>
-                  <span className='minutes'>â€”</span>
+                  <span className='minutes'>•</span>
                   <p className='type'>Encryption, RSA, Access Control</p>
                 </div>
                 <div className='movie_desc'>
@@ -1411,22 +1438,28 @@ const App = () => {
                 <div className='movie_social'>
                   <ul className='flex gap-3 items-center'>
                     <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
-                      <img src={reactLogo} className='w-full h-full object-contain' alt='React' />
+                      <img src={pythonLogo} className='w-full h-full object-contain' alt='Python' />
+                    </li>
+                    <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
+                      <img src={dbLogo} className='w-full h-full object-contain' alt='Database' />
+                    </li>
+                    <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
+                      <img src={htmlLogo} className='w-full h-full object-contain' alt='HTML' />
+                    </li>
+                    <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
+                      <img src={cssLogo} className='w-full h-full object-contain' alt='CSS' />
                     </li>
                     <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
                       <img src={jsLogo} className='w-full h-full object-contain' alt='JavaScript' />
-                    </li>
-                    <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
-                      <img src={githubLogo} className='w-full h-full object-contain' alt='GitHub' />
                     </li>
                   </ul>
                 </div>
               </div>
               <div className='blur_back overflow-hidden relative'>
-                <video 
-                  src={cipherdocVideo} 
-                  autoPlay 
-                  muted 
+                <video
+                  src={cipherdocVideo}
+                  autoPlay
+                  muted
                   playsInline
                   onEnded={(e) => {
                     const video = e.target;
@@ -1442,7 +1475,7 @@ const App = () => {
               </div>
             </div>
 
-            
+
 
             <div className='movie_card div3' id='tomb'>
               <div className='info_section'>
@@ -1450,7 +1483,7 @@ const App = () => {
                   <img className='locandina bg-[#1c1c1c] p-2 object-contain' src={tripzyLogo} alt='project' />
                   <h1>Tripzy_Travel_Companion</h1>
                   <h4>2024, Raju Perumalla</h4>
-                  <span className='minutes'>â€”</span>
+                  <span className='minutes'>•</span>
                   <p className='type'>HTML, CSS, JS, Firebase</p>
                 </div>
                 <div className='movie_desc'>
@@ -1471,10 +1504,10 @@ const App = () => {
                 </div>
               </div>
               <div className='blur_back overflow-hidden relative'>
-                <video 
-                  src={tripzyVideo} 
-                  autoPlay 
-                  muted 
+                <video
+                  src={tripzyVideo}
+                  autoPlay
+                  muted
                   playsInline
                   onEnded={(e) => {
                     const video = e.target;
@@ -1490,15 +1523,15 @@ const App = () => {
               </div>
             </div>
 
-            
 
-<div className='movie_card div4' id='nova'>
+
+            <div className='movie_card div4' id='nova'>
               <div className='info_section'>
                 <div className='movie_header'>
                   <img className='locandina bg-[#1c1c1c] p-2 object-contain' src={nutrixaLogo} alt='project' />
                   <h1>Nutrixa-DietEngine</h1>
                   <h4>2025, Raju Perumalla</h4>
-                  <span className='minutes'>â€”</span>
+                  <span className='minutes'>•</span>
                   <p className='type'>Health Tech, Smart Engine</p>
                 </div>
                 <div className='movie_desc'>
@@ -1507,7 +1540,7 @@ const App = () => {
                 <div className='movie_social'>
                   <ul className='flex gap-3 items-center'>
                     <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
-                      <img src={reactLogo} className='w-full h-full object-contain' alt='React' />
+                      <img src={streamlitLogo} className='w-full h-full object-contain' alt='Streamlit' />
                     </li>
                     <li className='w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-1.5 hover:border-blue-500/50 hover:bg-white/10 transition-all duration-300'>
                       <img src={cssLogo} className='w-full h-full object-contain' alt='CSS' />
@@ -1519,10 +1552,10 @@ const App = () => {
                 </div>
               </div>
               <div className='blur_back overflow-hidden relative'>
-                <video 
-                  src={nutrixaVideo} 
-                  autoPlay 
-                  muted 
+                <video
+                  src={nutrixaVideo}
+                  autoPlay
+                  muted
                   playsInline
                   onEnded={(e) => {
                     const video = e.target;
@@ -1541,7 +1574,7 @@ const App = () => {
         </section>
 
         {/* Indian Names List */}
-        <section id='community' className='py-16'>
+        <section id='community' ref={communitySectionRef} className='py-16'>
           <div className='mb-8'>
             <h3 className='text-blue-500 font-medium mb-2 flex items-center gap-2'>
               <div className='h-px w-8 bg-blue-500' /> Community
@@ -1585,7 +1618,7 @@ const App = () => {
         </section>
 
         {/* Contact Section */}
-        <section id='contact' className='py-32'>
+        <section id='contact' ref={contactSectionRef} className='py-32'>
           <div className="flex flex-col items-start justify-center w-full max-w-[1440px] mx-auto px-4 gap-12 text-left">
 
             {/* Main 2-Column Row for Contact Section */}
@@ -1647,7 +1680,7 @@ const App = () => {
 
                   {/* Text and Dynamic Card (Right of Social Card) */}
                   <div className="flex flex-col justify-start gap-10 max-w-[450px]">
-                    <p className="text-white/60" style={{ marginLeft: '5px' }}>
+                    <p className="text-white/90" style={{ marginLeft: '5px' }}>
                       Available for full-time roles,
                       <br />internships, and freelance projects.
                       <br />Let's connect and build something great together.
