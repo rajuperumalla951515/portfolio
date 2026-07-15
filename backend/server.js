@@ -236,13 +236,13 @@ app.post('/api/contact', async (req, res) => {
     };
 
     // Send the email (do this asynchronously so we don't delay the response to the user, but we'll await it here for simplicity and to catch errors if needed, or just send and log)
-    try {
-      const info = await transporter.sendMail(mailOptions);
-      console.log('Email sent: ' + info.response);
-    } catch (emailError) {
-      console.error('Error sending email:', emailError);
-      // Still return success since the message was saved to DB
-    }
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
 
     res.status(201).json({ success: true, message: 'Message sent successfully!' });
   } catch (error) {
