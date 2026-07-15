@@ -460,32 +460,7 @@ const App = () => {
       <div className={`bg-yellow-gradient ${activeSection === 'projects' ? 'bg-fade-in' : ''}`} />
       <div className={`bg-darkgreen-gradient ${activeSection === 'community' ? 'bg-fade-in' : ''}`} />
       <div className={`bg-orange-gradient ${activeSection === 'contact' ? 'bg-fade-in' : ''}`} />
-      <div
-        className={`fixed top-40 right-25 md:top-38 md:right-[36rem] z-[-9] pointer-events-none select-none whitespace-nowrap transition-all duration-150 ${isScrolled ? 'opacity-0 translate-y-4 blur-sm' : 'opacity-100 translate-y-0 blur-0'}`}
-        style={{ transitionTimingFunction: 'var(--scroll-transition-ease)' }}
-      >
-        <div className='text-white font-black leading-none tracking-tight text-lg sm:text-xl md:text-2xl lg:text-3xl flex items-center'>
-          <span className='text-black'>I'M  A</span>
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={rotatingRoles[activeRoleIndex]}
-              custom={scrollDirection}
-              variants={rotatingRoleVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                opacity: { duration: 0.05 },
-                y: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
-                filter: { duration: 0.1 },
-              }}
-              className='text-white inline-block min-w-[12ch] ml-2'
-            >
-              {rotatingRoles[activeRoleIndex]}
-            </motion.span>
-          </AnimatePresence>
-        </div>
-      </div>
+
       <div className='bg-grid' />
 
       <AnimatePresence>
@@ -599,6 +574,33 @@ const App = () => {
             transition={{ delay: 0.4 }}
           >
             <div className='outer'>
+              {/* Floating role text, 5px above the card on all screen sizes, shifted left on desktop */}
+              <div
+                className={`absolute bottom-full right-4 md:right-[126px] mb-[5px] z-10 pointer-events-none select-none whitespace-nowrap transition-all duration-150 ${isScrolled ? 'opacity-0 translate-y-4 blur-sm' : 'opacity-100 translate-y-0 blur-0'}`}
+                style={{ transitionTimingFunction: 'var(--scroll-transition-ease)' }}
+              >
+                <div className='text-white font-black leading-none tracking-tight text-lg sm:text-xl md:text-2xl lg:text-3xl flex items-center'>
+                  <span className='text-black'>I'M  A</span>
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={rotatingRoles[activeRoleIndex]}
+                      custom={scrollDirection}
+                      variants={rotatingRoleVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{
+                        opacity: { duration: 0.05 },
+                        y: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+                        filter: { duration: 0.1 },
+                      }}
+                      className='text-white inline-block min-w-[12ch] ml-2'
+                    >
+                      {rotatingRoles[activeRoleIndex]}
+                    </motion.span>
+                  </AnimatePresence>
+                </div>
+              </div>
               <Tilt
                 tiltMaxAngleX={8}
                 tiltMaxAngleY={8}
