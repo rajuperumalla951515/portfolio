@@ -1657,8 +1657,8 @@ const App = () => {
                   </svg>
                 </div>
                 <div className='content'>
-                  <h3>Arjun Rao</h3>
-                  <p>Bengaluru, KA</p>
+                  <h3>Rajesh</h3>
+                  <p>Hyderabad</p>
                 </div>
               </li>
               <li style={{ '--i': 2 }}>
@@ -1668,8 +1668,8 @@ const App = () => {
                   </svg>
                 </div>
                 <div className='content'>
-                  <h3>Priya Sharma</h3>
-                  <p>Mumbai, MH</p>
+                  <h3>Dev Raj</h3>
+                  <p>Gachibowli</p>
                 </div>
               </li>
               <li style={{ '--i': 3 }}>
@@ -1679,8 +1679,8 @@ const App = () => {
                   </svg>
                 </div>
                 <div className='content'>
-                  <h3>Rohan Kapoor</h3>
-                  <p>New Delhi, DL</p>
+                  <h3>Niketh</h3>
+                  <p>Kamareddy</p>
                 </div>
               </li>
               <li style={{ '--i': 4 }}>
@@ -1690,8 +1690,8 @@ const App = () => {
                   </svg>
                 </div>
                 <div className='content'>
-                  <h3>Ananya Patel</h3>
-                  <p>Ahmedabad, GJ</p>
+                  <h3>Manikanta</h3>
+                  <p>Kukatpally</p>
                 </div>
               </li>
             </ul>
